@@ -13,23 +13,23 @@
 		<table style="width: 500px">
 			<tr>
 				<td>상품</td>
-				<td>${dto.pcode }</td>
+				<td>${dto.lto.pname }</td>
 			</tr>
 			<tr>
 				<td>작성일자</td>
-				<td>${dto.bdate }</td>
+				<td>${dto.bto.bdate }</td>
 			</tr>
 			<tr>
 				<td>제목</td>
-				<td>${dto.bname }</td>
+				<td>${dto.bto.bname }</td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td>${dto.bcont }</td>
+				<td>${dto.bto.bcont }</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center"><a href="reviewupdate?bnum=${dto.bnum}">수정</a> &emsp;
-				<a href="userreviewdel?bnum=${dto.bnum}" onclick="javascript:alert('정말 삭제하시겠습니까?');">삭제</a></td>
+				<td colspan="2" align="center"><a href="reviewupdateget?bnum=${dto.bto.bnum}">수정</a> &emsp;
+				<a href="userreviewdel?bnum=${dto.bto.bnum}" onclick="javascript:alert('정말 삭제하시겠습니까?');">삭제</a></td>
 			</tr>
 		</table>
 	</form>

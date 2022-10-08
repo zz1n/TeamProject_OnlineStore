@@ -39,7 +39,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ModelAndView home(Model model) {
+	public ModelAndView mainhome(Model model) {
 		mav.setView(new RedirectView("/shop")); // 다른 컨트롤러로 viewname
 		return mav;
 	}
@@ -50,7 +50,7 @@ public class OrderController {
 		OrderService ser = sqlSession.getMapper(OrderService.class);
 
 		int stnrd = Integer.parseInt(request.getParameter("stnrd"));
-		ArrayList<OrderDTO> list = ser.orderlist("user001", stnrd);
+		ArrayList<TotalDTO> list = ser.orderlist("user001", stnrd);
 
 		mav.addObject("list", list);
 		mav.setViewName("userorderlist");

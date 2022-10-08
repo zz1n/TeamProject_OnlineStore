@@ -14,7 +14,9 @@
 		<result property="uaddress1" column="uaddress1"/>
 		<result property="uaddress2" column="uaddress2"/>
 		<result property="uaddress3" column="uaddress3"/>
-		<result property="uzipcode" column="uzipcode"/>
+		<result property="uzipcode1" column="uzipcode1"/>
+		<result property="uzipcode2" column="uzipcode2"/>
+		<result property="uzipcode3" column="uzipcode3"/>
 		<result property="uemail" column="uemail"/>
 		<result property="upoint" column="upoint"/>
 		<result property="urgtdate" column="urgtdate"/>

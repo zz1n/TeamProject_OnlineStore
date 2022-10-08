@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.teampj.shop.prlist.PrListService">
+
+	<resultMap type="com.teampj.shop.prlist.PrListDTO" id="dto">
+		<result property="pcode" column="pcode"/>
+		<result property="scode" column="scode"/>
+		<result property="pname" column="pname"/>
+		<result property="price" column="price"/>
+		<result property="cost" column="cost"/>
+		<result property="pcount" column="pcount"/>
+		<result property="pshipday" column="pshipday"/>
+		<result property="pshipcost" column="pshipcost"/>
+		<result property="preshipcost" column="preshipcost"/>
+		<result property="pspshipcost" column="pspshipcost"/>
+		<result property="pthumbnail" column="pthumbnail"/>
+		<result property="pdscrpt" column="pdscrpt"/>
+		<result property="pmaincate" column="pmaincate"/>
+		<result property="psubcate" column="psubcate"/>
+		<result property="ptag" column="ptag"/>
+		<result property="prgtdate" column="prgtdate"/>
+	</resultMap>
+<!-- pcode insert 할 때, 칼럼값을 'P'||LPAD(SEQ_productDB.NEXTVAL,5,0) -->
+
+<insert id="listinsert">
+insert into listdb(pcode,scode,pname,price,cost,pcount,pshipday,pshipcost,preshipcost,pspshipcost,pthumbnail,pdscrpt,pmaincate,psubcate,ptag,prgtdate)
+values('P'||LPAD(SEQ_productDB.NEXTVAL,5,0),'S00001',#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9},#{param12},#{param10},#{param11},#{param13},sysdate)
+
+
+</insert>
+<!-- 셀러코드 기입 나중에 해야됨  -->
+
+<select id="simplegoodslist" resultMap="dto">
+select pcode,pname,price,prgtdate from listdb
+
+
+</select>
+
+<select id="update" resultMap="dto"> <!-- 상세목록 불러오기 -->
+select * from listdb where pcode = #{param1}
+
+</select>
+
+<delete id="delete">
+delete from listdb where pcode = #{param1}
+
+</delete>
+
+<update id="update2"><!-- 실제 업데이트 -->
+update listdb set pname = #{param1}, price = #{param2}, cost = #{param3}, pcount = #{param4}, pshipday = #{param5}, pshipcost = #{param6}, preshipcost = #{param7}, pspshipcost = #{param8}, pthumbnail = #{param9}, pmaincate = #{param10}, psubcate = #{param11}, pdscrpt = #{param12}, ptag = #{param13}, prgtdate = sysdate where pcode = #{param14}  
+
+</update>
+</mapper>

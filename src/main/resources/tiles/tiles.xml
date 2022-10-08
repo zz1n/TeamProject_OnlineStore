@@ -65,6 +65,48 @@
 	<definition name="listmain" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/list/main.jsp" />
 	</definition>
+	<definition name="listranking" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/list/ranking.jsp" />
+	</definition>
+	<definition name="listmonth" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/list/month.jsp" />
+	</definition>
+	<definition name="listsearchpage" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/list/searchpage.jsp" />
+	</definition>
+	<definition name="listdetail" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/list/detail.jsp" />
+	</definition>
+	<definition name="listbuy" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/list/buy.jsp" />
+	</definition>
+	<definition name="lists_category" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/list/s_category.jsp" />
+	</definition>
+	<definition name="listp_category" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/list/p_category.jsp" />
+	</definition>
+<!-- 공주님, 내가 공주님거랑 창용이랑 둘 다 list써서 겹치는거 있어서 공주님꺼에 pr달았어. 헷갈릴까봐 주석 남김! -->
+	<definition name="prlistmain" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/prlist/prmain.jsp" />
+	</definition>
+	<definition name="output" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/prlist/proutput.jsp" />
+	</definition>
+	<definition name="uploadForm" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/prlist/pruploadForm.jsp" />
+	</definition>
+	<definition name="update" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/prlist/prupdate.jsp" />
+	</definition>
+	<definition name="reply" extends="baseLayout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/prlist/prreply.jsp" />
+	</definition>
 	
 <!-- ORDER -->
 	<definition name="ordermain" extends="baseLayout">
@@ -79,12 +121,52 @@
 	
 <!-- PROFIT -->
 	<definition name="profitmain" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/profit/main.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/profit/profitmain.jsp" />
+	</definition>
+	<definition name="profittest" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/profit/profittest.jsp" />
+	</definition>
+	<definition name="testview" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/profit/testview.jsp" />
+	</definition>
+	<definition name="profitselect" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/profit/profitselect.jsp" />
 	</definition>
 	
 <!-- SELLER -->
+	<!-- 판매자 로그인화면 -->
+	<definition name="sellerindex" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/seller/log/sellerindex.jsp" />
+	</definition>
+	<!-- 판매자 회원가입화면 -->
+	<definition name="sellerinput" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/seller/log/sellerinput.jsp" />
+	</definition>
+	
+<!-- SellerOrder -->
+	<!-- 판매자 메인페이지 -->
 	<definition name="sellermain" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/seller/signin.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellermain.jsp" />
+	</definition>
+	<!-- 판매자 매출조회 -->
+	<definition name="sellersales" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellersales.jsp" />
+	</definition>
+	<!-- 판매자 환불조회 -->
+	<definition name="sellRefund" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellRefund.jsp" />
+	</definition>
+	<!-- 판매자 환불저장 -->
+	<definition name="sellrefundview" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellrefundview.jsp" />
+	</definition>
+	<!-- 판매자 배송관리 -->
+	<definition name="sellerorder" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellerorder.jsp" />
+	</definition>
+	<!-- 판매자 배송관리 출력 -->
+	<definition name="sellerorderview" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellerorderview.jsp" />
 	</definition>
 	
 <!-- USER -->

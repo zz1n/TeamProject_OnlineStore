@@ -6,7 +6,7 @@ import com.teampj.shop.TotalDTO;
 
 public interface OrderService {
 
-	ArrayList<OrderDTO> orderlist(String id, int stnrd);
+	ArrayList<TotalDTO> orderlist(String id, int stnrd);
 
 	TotalDTO orderdetail(String string, String ocode);
 

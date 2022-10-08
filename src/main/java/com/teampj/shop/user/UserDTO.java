@@ -3,7 +3,7 @@ package com.teampj.shop.user;
 public class UserDTO {
 
 	String ucode, userid, userpw, uname, umobile, uaddress1, uaddress2, uaddress3;
-	int uzipcode;
+	int uzipcode1, uzipcode2, uzipcode3;
 	String uemail;
 	int upoint;
 	String urgtdate;
@@ -12,8 +12,10 @@ public class UserDTO {
 	public UserDTO() {
 		super();
 	}
+	
 	public UserDTO(String ucode, String userid, String userpw, String uname, String umobile, String uaddress1,
-			String uaddress2, String uaddress3, int uzipcode, String uemail, int upoint, String urgtdate, int useyn) {
+			String uaddress2, String uaddress3, int uzipcode1, int uzipcode2, int uzipcode3, String uemail, int upoint,
+			String urgtdate, int useyn) {
 		super();
 		this.ucode = ucode;
 		this.userid = userid;
@@ -23,12 +25,15 @@ public class UserDTO {
 		this.uaddress1 = uaddress1;
 		this.uaddress2 = uaddress2;
 		this.uaddress3 = uaddress3;
-		this.uzipcode = uzipcode;
+		this.uzipcode1 = uzipcode1;
+		this.uzipcode2 = uzipcode2;
+		this.uzipcode3 = uzipcode3;
 		this.uemail = uemail;
 		this.upoint = upoint;
 		this.urgtdate = urgtdate;
 		this.useyn = useyn;
 	}
+	
 	public String getUcode() {
 		return ucode;
 	}
@@ -77,11 +82,23 @@ public class UserDTO {
 	public void setUaddress3(String uaddress3) {
 		this.uaddress3 = uaddress3;
 	}
-	public int getUzipcode() {
-		return uzipcode;
+	public int getUzipcode1() {
+		return uzipcode1;
 	}
-	public void setUzipcode(int uzipcode) {
-		this.uzipcode = uzipcode;
+	public void setUzipcode1(int uzipcode1) {
+		this.uzipcode1 = uzipcode1;
+	}
+	public int getUzipcode2() {
+		return uzipcode2;
+	}
+	public void setUzipcode2(int uzipcode2) {
+		this.uzipcode2 = uzipcode2;
+	}
+	public int getUzipcode3() {
+		return uzipcode3;
+	}
+	public void setUzipcode3(int uzipcode3) {
+		this.uzipcode3 = uzipcode3;
 	}
 	public String getUemail() {
 		return uemail;
@@ -107,7 +124,6 @@ public class UserDTO {
 	public void setUseyn(int useyn) {
 		this.useyn = useyn;
 	}
-	
 	
 	
 }

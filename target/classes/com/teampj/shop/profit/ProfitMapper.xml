@@ -14,5 +14,14 @@
 		<result property="ocount" column="ocount"/>
 		<result property="odate" column="odate"/>
 	</resultMap>
+	
+	<!-- 철민 -->
+<!-- 매출 데이터 출력 -->
+<select id="getIncome" parameterType="String" resultType="com.teampj.shop.profit.ProfitDTO" >
+select * from profitdb where scode=#{param1} and odate between  #{param2} and to_date(#{param3}, 'YY/MM/DD') + 1 
+</select>
+<select id="testin" parameterType="String" resultType="com.teampj.shop.profit.ProfitDTO" >
+	select * from profitdb where scode=#{param1} and odate between  #{param2} and to_date(#{param3}, 'YY/MM/DD') + 1 
+</select>
 
 </mapper>

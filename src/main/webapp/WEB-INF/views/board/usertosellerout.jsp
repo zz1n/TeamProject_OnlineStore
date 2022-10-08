@@ -12,21 +12,21 @@
 <h3 style="text-align: center;">문의 상세</h3>
 	<form action="#" method="post">
 		<table style="width: 500px">
-		<c:forEach var="i" begin="0" end="${fn:length(list)-1}" step="1">
+		<c:forEach var="li" items="${list }">
 			<tr>
-				<td>글번호</td>	<td>${list[i].bnum }</td>
-				<td>상품이름</td>	<td>${list[i].pcode }</td>
+				<td>글번호</td>	<td>${li.bto.bnum }</td>
+				<td>상품이름</td>	<td>${li.lto.pname }</td>
 			</tr>
 			<tr>
-				<td>글제목</td>	<td>${list[i].bname }</td>
-				<td>작성날짜</td>	<td>${list[i].bdate }</td>
+				<td>글제목</td>	<td>${li.bto.bname }</td>
+				<td>작성날짜</td>	<td>${li.bto.bdate }</td>
 			</tr>
 			<tr>
 				<td>글내용</td>
-				<td>${list[i].bcont }</td>
+				<td>${li.bto.bcont }</td>
 			</tr>
 			<tr>
-				<td><a href="usertosellerdel?bnum=${list[i].bnum }" onclick="javascript:alert('정말 삭제하시겠습니까?');">삭제</a></td>
+				<td><a href="usertosellerdel?bnum=${li.bto.bnum }" onclick="javascript:alert('정말 삭제하시겠습니까?');">삭제</a></td>
 			</tr>
 		</c:forEach>
 		</table>

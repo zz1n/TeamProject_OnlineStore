@@ -11,18 +11,18 @@
 		<table style="width: 500px">
 			<tr>
 				<td>상품</td>
-				<td><input type="text" name="pcode" value="${dto.pcode }"></td>
+				<td><input type="text" name="pcode" value="${dto.lto.pname }"></td>
 			</tr>
 			<tr>
 				<td>제목</td>
-				<td><input type="text" name="bname" value="${dto.bname }"></td>
+				<td><input type="text" name="bname" value="${dto.bto.bname }"></td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea name="bcont" rows="10" cols="50">${dto.bcont }</textarea></td>
+				<td><textarea name="bcont" rows="10" cols="50">${dto.bto.bcont }</textarea></td>
 			</tr>
 			<input type="hidden" name="userid" value="user001">	<!-- 세션에서 가져오기 -->
-			<input type="hidden" name="bnum" value="${dto.bnum }">
+			<input type="hidden" name="bnum" value="${dto.bto.bnum }">
 		</table>
 		<br>
 		<input type="submit" value="후기 등록">

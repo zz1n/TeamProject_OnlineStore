@@ -21,5 +21,27 @@
 	</resultMap>
 <!-- scode insert 할 때, 칼럼값을 'S'||LPAD(SEQ_sellerDB.NEXTVAL,5,0) -->
 
+<!-- 철민 -->
+	<!-- 판매자 회원가입 -->
+	<insert id="sellerin">
+		insert into sellerdb
+		values('S'||LPAD(SEQ_sellerDB.NEXTVAL,5,0),#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9},#{param10},default)
+	</insert>
+	<!-- 아이디 중복체크 -->
+	<select id="idCheck" parameterType="String" >
+		select
+		count(*) from sellerdb where sellerid =#{param1}
+	</select>
+	<!-- 로그인 아이디,비밀번호 체크 -->
+	<select id="loginCheck" parameterType="String" resultType="int">
+	 select count(*) from sellerdb where sellerid=#{param1} and sellerpw=#{param2}
+	</select>
+	<!-- 로그인 성공 scode 발급 -->
+	<select id="logincode" parameterType="String" resultType="String">
+	select scode from sellerdb where sellerid=#{param1}
+	</select>
+	<!-- 아이디 찾기 -->
+
+	<!-- 비밀번호 찾기 -->
 
 </mapper>

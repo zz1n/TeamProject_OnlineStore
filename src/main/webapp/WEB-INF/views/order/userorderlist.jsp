@@ -13,16 +13,16 @@
 <h3 style="text-align: center;">주문 내역</h3>
 
 	<table width="500px" align="center">
-		<c:forEach var="i" begin="0" end="${fn:length(list)-1}" step="1">
+		<c:forEach var="li" items="${list }">
 
 			<tr>
-				<td rowspan="3">${list[i].oaddress }</td> <td>${list[i].ocode }</td> <td align="right"><a href="orderdetail?ocode=${list[i].ocode }">상세 주문 내역</a></td>
+				<td rowspan="3">${li.lto.pthumbnail }</td> <td>${li.oto.ocode }</td> <td align="right"><a href="orderdetail?ocode=${li.oto.ocode }">상세 주문 내역</a></td>
 			</tr>
 			<tr>
-				<td>${list[i].omemo }</td> <td>${list[i].ocount }개</td>
+				<td>${li.lto.pname }</td> <td>${li.oto.ocount }개</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="right"><fmt:formatNumber value="${list[i].ocharge }" pattern="#,###,#00원"></fmt:formatNumber></td>
+				<td colspan="2" align="right"><fmt:formatNumber value="${li.oto.ocharge }" pattern="#,###,#00원"></fmt:formatNumber></td>
 			</tr>
 
 		</c:forEach>

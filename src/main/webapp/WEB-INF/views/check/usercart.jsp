@@ -36,11 +36,11 @@
 				<th>수량</th> <th>총합</th>
 				
 			</tr>
-		<c:forEach var="i" begin="0" end="${fn:length(list)-1}" step="1">
+		<c:forEach var="li" items="${list }">
 			<tr>
-				<td><input type="checkbox" name="chk" value="${list[i].pcode }" ></td>
-				<td>${list[i].pthumbnail }</td> <td>${list[i].pname }</td> <td>${list[i].price }</td>
-				<td>${list[i].cost }</td> <td>${list[i].price*list[i].cost }</td>
+				<td><input type="checkbox" name="chk" value="${li.lto.pcode }" ></td>
+				<td>${li.lto.pthumbnail }</td> <td>${li.lto.pname }</td> <td>${li.lto.price }</td>
+				<td>${li.cto.bcount }</td> <td>${li.lto.price*li.cto.bcount }</td>
 			</tr>
 		</c:forEach>
 			<tr>

@@ -19,13 +19,13 @@
 			<th>문의글</th>
 			<th>상세내용</th>
 		</tr>
-		<c:forEach var="i" begin="0" end="${fn:length(list)-1}" step="1">
+		<c:forEach var="li" items="${list }">
 			<tr>
-				<td>${list[i].bnum }</td>
-				<td>${list[i].bdate }</td>
-				<td>${list[i].pcode }</td>
-				<td>${list[i].bname }</td>	<!-- 문의글 상세로 이어지는 링크 걸어야 -->
-				<td><a href="usertosellerout?bnum=${list[i].bnum }">작성한 문의 보러 가기</a></td>
+				<td>${li.bto.bnum }</td>
+				<td>${li.bto.bdate }</td>
+				<td>${li.lto.pname }</td>
+				<td>${li.bto.bname }</td>	<!-- 문의글 상세로 이어지는 링크 걸어야 -->
+				<td><a href="usertosellerout?bnum=${li.bto.bnum }">작성한 문의 보러 가기</a></td>
 			</tr>
 		</c:forEach>
 	</table>

@@ -19,7 +19,7 @@
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea name="bcont" rows="10" cols="50"></textarea></td>
+				<td><div id="summernote" name="bcont"></div></td>
 			</tr>
 			<input type="hidden" name="pcode" value="${dto.pcode }">
 		</table>

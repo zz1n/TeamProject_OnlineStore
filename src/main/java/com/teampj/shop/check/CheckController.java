@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.teampj.shop.list.ListDTO;
+import com.teampj.shop.TotalDTO;
 import com.teampj.shop.list.ListService;
 
 
@@ -41,29 +41,37 @@ public class CheckController {
 	}
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ModelAndView home(Model model) {
+	public ModelAndView mainhome(Model model) {
 		mav.setView(new RedirectView("/shop"));	//다른 컨트롤러로 viewname
 		return mav;
 	}
 	
 	// 유저 장바구니/좋아요
-	@RequestMapping(value = "/usercheck", method = RequestMethod.GET)	// 세션작업 필요
-	public ModelAndView usercheck(Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/usercheckcart", method = RequestMethod.GET)	// 세션작업 필요
+	public ModelAndView usercheckcart(Model model, HttpServletRequest request) {
 		// 세션에서 아이디 가져오는걸로 수정하기
 		ListService ser = sqlSession.getMapper(ListService.class);
 		
-		int bcode = Integer.parseInt(request.getParameter("bcode"));
-		ArrayList<ListDTO> list = ser.usercheck("user001", bcode);
+		ArrayList<TotalDTO> list = ser.usercheck("user001", 1);
 		mav.addObject("list", list);
+		mav.setViewName("usercart");
 		
-		if(bcode==1) {
-			mav.setViewName("usercart");
-		} else if ( bcode==2 ) {
-			mav.setViewName("userlike");
-		}
 
 		return mav;
 	}
+	
+	// 유저 장바구니/좋아요
+		@RequestMapping(value = "/userchecklike", method = RequestMethod.GET)	// 세션작업 필요
+		public ModelAndView userchecklike(Model model, HttpServletRequest request) {
+			// 세션에서 아이디 가져오는걸로 수정하기
+			ListService ser = sqlSession.getMapper(ListService.class);
+			
+			ArrayList<TotalDTO> list = ser.usercheck("user001", 2);
+			mav.addObject("list", list);
+			mav.setViewName("userlike");
+
+			return mav;
+		}
 	
 	// 유저 장바구니/좋아요 삭제
 	@RequestMapping(value = "/checkdel", method = RequestMethod.POST)	// 세션작업 필요

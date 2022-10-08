@@ -23,14 +23,75 @@
 		<result property="ptag" column="ptag"/>
 		<result property="prgtdate" column="prgtdate"/>
 	</resultMap>
+	
+	<resultMap type="com.teampj.shop.check.CheckDTO" id="cto">
+		<result property="bcount" column="bcount"/>
+	</resultMap>
+	
+	<resultMap type="com.teampj.shop.TotalDTO" id="tto">
+		<collection property="lto" resultMap="dto" />
+		<collection property="cto" resultMap="cto" />
+	</resultMap>
 <!-- pcode insert 할 때, 칼럼값을 'P'||LPAD(SEQ_productDB.NEXTVAL,5,0) -->
 
-<select id="usercheck" resultMap="dto">
-	select l.pcode, l.pthumbnail, l.pname, l.price, c.bcount as cost from listdb l left outer join checkdb c on (l.pcode = c.pcode) where ucode = (select ucode from userdb where userid = #{param1}) and bcode = #{param2}
+<!-- 효진 -->
+<select id="usercheck" resultMap="tto">
+	select l.pcode, l.pthumbnail, l.pname, l.price, c.bcount from listdb l left outer join checkdb c on (l.pcode = c.pcode) where ucode = (select ucode from userdb where userid = #{param1}) and bcode = #{param2}
 </select>
 
 <select id="usertoseller" resultMap="dto">
 	select pcode, pname, pthumbnail from listdb where pcode = (select pcode from orderdb where ocode = #{param1})
 </select>
+
+<!-- 창용 -->
+<select id="mainout" resultMap="dto">
+    select *
+    from listdb
+  </select>
+
+  <select id="rankingout" resultMap="dto">
+    select *
+    from listdb
+  </select>
+  
+  <select id="monthout" resultMap="dto">
+    select *
+    from listdb
+  </select>
+  
+  <select id="search" resultMap="dto">
+    select *
+    from listdb
+    where pname like '%' || #{param1} || '%' or ptag like '%' || #{param1} || '%'
+  </select>
+  
+  <select id="detail" resultMap="dto">
+    select *
+    from listdb
+    where pcode = #{param1}
+  </select>
+  
+  <select id="listcate" resultMap="dto">
+    select *
+    from listdb
+    where upper(pmaincate) = upper(#{param1})
+  </select>
+
+  <select id="brandcate" resultMap="dto">
+    select *
+    from listdb
+    where upper(scode) = upper(#{param1})
+  </select>
+  
+  <select id="buy" resultMap="dto">
+    select *
+    from listdb
+    where pcode = #{param1}
+  </select>
+  
+  <insert id="buysave">
+    insert into orderdb(ocode, ucode, scode, pcode, ocount, oaddress, omethod)
+    values('O'||LPAD(SEQ_orderDB.nextval,5,0), 'U00001', #{param1}, #{param2}, #{param3}, '서울시', #{param4})
+  </insert>
 
 </mapper>

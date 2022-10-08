@@ -35,8 +35,8 @@
 	
 <!-- ocode insert 할 때, 칼럼값을 'O'||LPAD(SEQ_orderDB.NEXTVAL,5,0) -->
 
-<select id="orderlist" resultMap="dto">
-select p.pthumbnail as oaddress, o.ocode, p.pname as omemo, o.ocount, o.ocharge
+<select id="orderlist" resultMap="tto">
+select p.pthumbnail, o.ocode, p.pname, o.ocount, o.ocharge
     from orderdb o left outer join listdb p on (o.pcode = p.pcode)
                    left outer join userdb u on (o.ucode = u.ucode)
     where (odate between add_months(sysdate, -(#{param2}+3)) and add_months(sysdate, -(#{param2})))
