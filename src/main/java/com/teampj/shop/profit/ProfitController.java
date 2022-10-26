@@ -1,11 +1,9 @@
 package com.teampj.shop.profit;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONObject;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -36,13 +33,15 @@ public class ProfitController {
 	JSONObject jo;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ModelAndView mainhome(Model model) {
-		mav.setView(new RedirectView("/shop")); // 다른 컨트롤러로 viewname
+	public ModelAndView mainhome(Model mo,HttpServletRequest request) {
+		String scode = request.getParameter("scode");
+		mo.addAttribute("scode", scode);
+		mav.setView(new RedirectView("/shop")); // �떎瑜� 而⑦듃濡ㅻ윭濡� viewname
 		return mav;
 	}
 
-	// 매출 메인
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	//판매자 매출조회 메인
+	@RequestMapping(value = "/profitmain", method = RequestMethod.GET)
 	public ModelAndView home(HttpServletRequest request, Model mo) {
 		String scode = request.getParameter("scode");
 		mo.addAttribute("scode", scode);
@@ -50,55 +49,47 @@ public class ProfitController {
 		return mav;
 	}
 
-	// 매출조회
-	@RequestMapping(value = "/profitcall", method = RequestMethod.GET) // 매출기간조회
+	//기간별 매출조회
+	@RequestMapping(value = "/periodprofitcall", method = RequestMethod.GET)
 	public ModelAndView profitcall(HttpServletRequest request, Model mo) {
 		String scode = request.getParameter("scode");
+		String serchset = request.getParameter("serchset");
 		String begindate = request.getParameter("begindate");
 		String enddate = request.getParameter("enddate");
+		
 		ProfitService ps = sqlSession.getMapper(ProfitService.class);
-		ArrayList<ProfitDTO> list = ps.testin(scode, begindate, enddate);
-
-		mo.addAttribute("list", list);
+		
+		if(serchset.equals("month")) { //(month profit serch)
+			ArrayList<ProfitDTO> list = ps.monthprofitcall(scode,begindate,enddate);
+			mo.addAttribute("list", list);
+			
+		}
+		else if(serchset.equals("day")) { //(day profit serch)
+			ArrayList<ProfitDTO> list = ps.dayprofitcall(scode,begindate,enddate);
+			mo.addAttribute("list", list);
+		}
+		
 		mo.addAttribute("scode", scode);
-		mav.setViewName("testview");
+		mav.setViewName("periodProfitView");//留ㅼ텧蹂닿린
+		return mav;
+	}
+	//상품별 매출조회(pname profit serch)
+	@RequestMapping(value="/pnameprofitcall",method = RequestMethod.GET)
+	public ModelAndView pnameProfitView(HttpServletRequest request,Model mo)
+	{
+		String scode = request.getParameter("scode");
+		String pcode = request.getParameter("pcode");
+		String begindate = request.getParameter("begindate");
+		String enddate = request.getParameter("enddate");
+		
+		ProfitService ps = sqlSession.getMapper(ProfitService.class);
+		ArrayList<ProfitDTO> list = ps.pnameprofitcall(scode,pcode,begindate,enddate);
+		
+		mo.addAttribute("scode", scode);
+		mo.addAttribute("list", list);
+		
+		mav.setViewName("pnameProfitView");
 		return mav;
 	}
 
-	// 테스트
-	@RequestMapping(value = "/dateIncome", method = RequestMethod.GET)
-	public void dateIncome(Locale locale, Model model) {
-
-	}
-
-	// 매출기간 출력
-//	@RequestMapping(value = "/incomeList", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-//	public @ResponseBody String incomeList(HttpServletRequest request, HttpServletResponse resopnse, Model model)
-//			throws Throwable {
-//		String data = request.getParameter("profitdata");
-//		jo = (JSONObject) jp.parse(data);
-//		String scode = (String) jo.get("scode");
-//		String begindate = (String) jo.get("begindate");
-//		String enddate = (String) jo.get("enddate");
-//
-//		ProfitService ps = sqlSession.getMapper(ProfitService.class);
-//		List<ProfitDTO> list = ps.getIncome(scode, begindate, enddate);
-//		Gson gson = new Gson();
-//
-//		return gson.toJson(list);
-//	}
-//
-//	@RequestMapping(value = "/serch", method = RequestMethod.GET) // 매출기간조회
-//	public ModelAndView serch(HttpServletRequest request, Model mo) {
-//		String scode = "S00001";
-//		String begindate = request.getParameter("begindate");
-//		String enddate = request.getParameter("enddate");
-//		ProfitService ps = sqlSession.getMapper(ProfitService.class);
-//		ArrayList<ProfitDTO> list = ps.testin(scode, begindate, enddate);
-//
-//		mo.addAttribute("list", list);
-//
-//		mav.setViewName("testview");
-//		return mav;
-//	}
 }

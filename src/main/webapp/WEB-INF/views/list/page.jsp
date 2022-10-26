@@ -6,9 +6,9 @@
 <html>
 <head>
 <style type="text/css">
-a {
-  color: inherit;
-  text-decoration: none;
+a:hover, a:visited, a:focus {
+  text-decoration: none !important;
+  
 }
 </style>
 <meta charset="UTF-8">
@@ -21,15 +21,13 @@ a {
     <th>제목</th><th>작성일자</th><th>내용</th>
   </tr>
   <c:forEach items = "${view }" var = "dd">
-    <tr>
-    <c:forEach items = "${list1 }" var = "bb">
-      <td>${bb.bname }</td>
+    <tr>   
+      <td>${dd.bname }</td>
       <td>
         <c:forEach begin="1" end="${dd.repindent }">&emsp;</c:forEach>
-        ${bb.bdate }
+        ${dd.bdate }
       </td>
-      <td>${bb.bcont }</td>
-    </c:forEach>
+      <td>${dd.bcont }</td>
     </tr>
   </c:forEach>
     <tr>

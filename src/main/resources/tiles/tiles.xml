@@ -10,10 +10,26 @@
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
 	</definition>
 	
+	<definition name="baseLayout2" template="/WEB-INF/views/layout/layout2.jsp">
+	    <put-attribute name="header" value="/WEB-INF/views/layout/sellerheader.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="navi" value="/WEB-INF/views/layout/sellernavi.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
+	
+	<definition name="baseLayout3" template="/WEB-INF/views/layout/layout3.jsp">
+	    <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+	    <put-attribute name="sidenavi" value="/WEB-INF/views/layout/sidenavi.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="navi" value="/WEB-INF/views/layout/navi.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
+	
 <!-- HOME -->
 	<definition name="home" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/layout/home.jsp" />
 	</definition>
+	
 	
 <!-- BOARD -->
 	<definition name="boardmain" extends="baseLayout">
@@ -28,16 +44,16 @@
 	<definition name="usertoseller" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/board/usertoseller.jsp" />
 	</definition>
-	<definition name="usertosellerlist" extends="baseLayout">
+	<definition name="usertosellerlist" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/board/usertosellerlist.jsp" />
 	</definition>
 	<definition name="usertosellerout" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/board/usertosellerout.jsp" />
 	</definition>
-	<definition name="usertosite" extends="baseLayout">
+	<definition name="usertosite" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/board/usertosite.jsp" />
 	</definition>
-	<definition name="usertositelist" extends="baseLayout">
+	<definition name="usertositelist" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/board/usertositelist.jsp" />
 	</definition>
 	<definition name="usertositeout" extends="baseLayout">
@@ -46,18 +62,18 @@
 	<definition name="userreviewout" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/board/reviewout.jsp" />
 	</definition>
-	<definition name="userreviewlist" extends="baseLayout">
+	<definition name="userreviewlist" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/board/reviewlist.jsp" />
 	</definition>
 	
 <!-- CHECK -->
-	<definition name="checkmain" extends="baseLayout">
+	<definition name="checkmain" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/check/main.jsp" />
 	</definition>
-	<definition name="usercart" extends="baseLayout">
+	<definition name="usercart" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/check/usercart.jsp" />
 	</definition>
-	<definition name="userlike" extends="baseLayout">
+	<definition name="userlike" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/check/userlike.jsp" />
 	</definition>
 	
@@ -80,6 +96,9 @@
 	<definition name="listbuy" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/list/buy.jsp" />
 	</definition>
+	<definition name="listbuycomplete" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/list/buycomplete.jsp" />
+	</definition>
 	<definition name="lists_category" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/list/s_category.jsp" />
 	</definition>
@@ -87,91 +106,111 @@
 		<put-attribute name="body" value="/WEB-INF/views/list/p_category.jsp" />
 	</definition>
 <!-- 공주님, 내가 공주님거랑 창용이랑 둘 다 list써서 겹치는거 있어서 공주님꺼에 pr달았어. 헷갈릴까봐 주석 남김! -->
-	<definition name="prlistmain" extends="baseLayout">
-		<put-attribute name="body"
-			value="/WEB-INF/views/prlist/prmain.jsp" />
+<definition name="prlistmain" extends="baseLayout2">
+		<put-attribute name="body" value="/WEB-INF/views/prlist/prmain.jsp" />
 	</definition>
-	<definition name="output" extends="baseLayout">
+	<definition name="output" extends="baseLayout2">
 		<put-attribute name="body"
 			value="/WEB-INF/views/prlist/proutput.jsp" />
 	</definition>
-	<definition name="uploadForm" extends="baseLayout">
+	<definition name="uploadForm" extends="baseLayout2">
 		<put-attribute name="body"
 			value="/WEB-INF/views/prlist/pruploadForm.jsp" />
 	</definition>
-	<definition name="update" extends="baseLayout">
+	<definition name="update" extends="baseLayout2">
 		<put-attribute name="body"
 			value="/WEB-INF/views/prlist/prupdate.jsp" />
 	</definition>
-	<definition name="reply" extends="baseLayout">
+	<definition name="reply" extends="baseLayout2">
 		<put-attribute name="body"
-			value="/WEB-INF/views/prlist/prreply.jsp" />
+			value="/WEB-INF/views/prlist/buyerask.jsp" />
 	</definition>
-	
+	<definition name="selleranswer" extends="baseLayout2">
+		<put-attribute name="body"
+			value="/WEB-INF/views/prlist/selleranswer.jsp" />
+	</definition>
 <!-- ORDER -->
-	<definition name="ordermain" extends="baseLayout">
+	<definition name="ordermain" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/order/main.jsp" />
 	</definition>
-	<definition name="userorderlist" extends="baseLayout">
+	<definition name="userorderlist" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/order/userorderlist.jsp" />
 	</definition>
-	<definition name="userorderdetail" extends="baseLayout">
+	<definition name="userorderdetail" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/order/userorderdetail.jsp" />
+	</definition>
+	<definition name="userorderchange" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/order/userorderchange.jsp" />
 	</definition>
 	
 <!-- PROFIT -->
-	<definition name="profitmain" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/profit/profitmain.jsp" />
-	</definition>
-	<definition name="profittest" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/profit/profittest.jsp" />
-	</definition>
-	<definition name="testview" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/profit/testview.jsp" />
-	</definition>
-	<definition name="profitselect" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/profit/profitselect.jsp" />
-	</definition>
+<!-- 매출 조회 메인페이지 -->
+   <definition name="profitmain" extends="baseLayout2">
+      <put-attribute name="body" value="/WEB-INF/views/profit/profitmain.jsp" />
+   </definition>
+   <!-- 기간 별 조회 뷰 -->
+   <definition name="periodProfitView" extends="baseLayout2">
+      <put-attribute name="body" value="/WEB-INF/views/profit/periodProfitView.jsp" />
+   </definition>
+   <!-- 상품 별 조회 뷰 -->
+   <definition name="pnameProfitView" extends="baseLayout2">
+      <put-attribute name="body" value="/WEB-INF/views/profit/pnameProfitView.jsp" />
+   </definition>
 	
 <!-- SELLER -->
 	<!-- 판매자 로그인화면 -->
-	<definition name="sellerindex" extends="baseLayout">
+	<definition name="sellerindex" extends="baseLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/seller/log/sellerindex.jsp" />
 	</definition>
 	<!-- 판매자 회원가입화면 -->
-	<definition name="sellerinput" extends="baseLayout">
+	<definition name="sellerinput" extends="baseLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/seller/log/sellerinput.jsp" />
 	</definition>
-	
+	<!-- 판매자 정보수정 -->
+	<definition name="sellerupdate" extends="baseLayout2">
+		<put-attribute name="body" value="/WEB-INF/views/seller/log/sellerupdate.jsp" />
+	</definition>
 <!-- SellerOrder -->
 	<!-- 판매자 메인페이지 -->
-	<definition name="sellermain" extends="baseLayout">
+	<definition name="sellermain" extends="baseLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellermain.jsp" />
 	</definition>
 	<!-- 판매자 매출조회 -->
-	<definition name="sellersales" extends="baseLayout">
+	<definition name="sellersales" extends="baseLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellersales.jsp" />
 	</definition>
 	<!-- 판매자 환불조회 -->
-	<definition name="sellRefund" extends="baseLayout">
+	<definition name="sellRefund" extends="baseLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellRefund.jsp" />
 	</definition>
 	<!-- 판매자 환불저장 -->
-	<definition name="sellrefundview" extends="baseLayout">
+	<definition name="sellrefundview" extends="baseLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellrefundview.jsp" />
 	</definition>
 	<!-- 판매자 배송관리 -->
-	<definition name="sellerorder" extends="baseLayout">
+	<definition name="sellerorder" extends="baseLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellerorder.jsp" />
 	</definition>
 	<!-- 판매자 배송관리 출력 -->
-	<definition name="sellerorderview" extends="baseLayout">
+	<definition name="sellerorderview" extends="baseLayout2">
 		<put-attribute name="body" value="/WEB-INF/views/seller/sell/sellerorderview.jsp" />
 	</definition>
 	
 <!-- USER -->
-	<definition name="usermain" extends="baseLayout">
+	<definition name="usermain" extends="baseLayout3">
 		<put-attribute name="body" value="/WEB-INF/views/user/main.jsp" />
+	</definition>
+    <definition name="login" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/user/login.jsp" />
+	</definition>
+    <definition name="loginn" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/user/loginn.jsp" />
+	</definition>
+	<definition name="UserUpdateView" extends="baseLayout3">
+		<put-attribute name="body" value="/WEB-INF/views/user/UserUpdateView.jsp" />
+	</definition>
+	<definition name="deleteView" extends="baseLayout3">
+		<put-attribute name="body" value="/WEB-INF/views/user/deleteView.jsp" />
 	</definition>
 	
 </tiles-definitions>

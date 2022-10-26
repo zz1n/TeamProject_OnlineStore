@@ -3,12 +3,13 @@ package com.teampj.shop.check;
 public class CheckDTO {
 
 	String ucode, pcode, indate, scode;
-	int bcount, bcode;
+	int bcount, bcode, ccode;
 	
 	public CheckDTO() {
 		super();
 	}
-	public CheckDTO(String ucode, String pcode, String indate, String scode, int bcount, int bcode) {
+	
+	public CheckDTO(String ucode, String pcode, String indate, String scode, int bcount, int bcode, int ccode) {
 		super();
 		this.ucode = ucode;
 		this.pcode = pcode;
@@ -16,7 +17,9 @@ public class CheckDTO {
 		this.scode = scode;
 		this.bcount = bcount;
 		this.bcode = bcode;
+		this.ccode = ccode;
 	}
+	
 	public String getUcode() {
 		return ucode;
 	}
@@ -52,6 +55,12 @@ public class CheckDTO {
 	}
 	public void setBcode(int bcode) {
 		this.bcode = bcode;
+	}
+	public int getCcode() {
+		return ccode;
+	}
+	public void setCcode(int ccode) {
+		this.ccode = ccode;
 	}
 	
 	

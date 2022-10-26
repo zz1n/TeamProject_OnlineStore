@@ -3,6 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+table {
+  margin: 0 auto;
+}
+</style>
 <!-- 판매자 회원가입 -->
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -18,35 +23,47 @@
 	}
 </script>
 <!-- 아이디 중복체크 -->
-<script type="text/javascript">
-	$('idCheck').click(function() {
-		var sellerid={"sellerid":sellerid=$('#sellerid').val()};
-		var data=JSON.stringify(sellerid);
-		var $.ajax({
-			url :"idCheck",
-			method:"POST",
-			data:{data:data},
-			dataType: "json"
-		});
-		request.done(function (data) {
-			console.log(data.result)
-			if(data.result=="Y"){
-			$('#idCheck').attr('idCheck','Y');
-			alert('사용 가능한 아이디입니다.');
-			} else{
-				$('#idCheck').attr('idCheck','N');
-				alert('사용할 수 없는 아이디입니다.');
+<script>
+$(document).ready(function() {
+	$("#idCheck").on('click',function(){
+		idCheck();
+	})
+});
+function idCheck() {
+	$.ajax({
+		url:"/shop/sellerAjax/idCheck",
+		type: "GET",
+		data:{
+			id:$("#id").val()
+		},
+		success: function (chk){
+			if(chk==0){
+				alert("사용 가능한 아이디입니다.");
+				$("#chk1").val(chk);
 			}
-			
-		});
-		request.fail(function (jqXHR, mtextStatus) {
-			alert("request failed:"+textStatus);
-		});
+			else{
+				alert("이미 사용중인 아이디입니다.");
+			}
+		},
+		error:function(){
+			alert("에러");
+		}
 	});
+}
+
 </script>
 <!-- 유효성검사 -->
 <script type="text/javascript">
-	$('input').click(function {
+$(document).ready(function() {
+	//이메일 유효성
+	$("#semail3").change(function(){
+        $("#semail2").val( $("#semail3").val());
+    });
+	$("#input").on('click',function(){
+		inputchk();
+	})
+});
+	function inputchk() {
 		var f = document.form;
 
 		//아이디 유효성
@@ -92,67 +109,94 @@
 			f.smobile.select();
 			return false;
 		}
-		
-		//이메일 유효성
-		$("#email3").change(function(){
-            $("#email2").val( $("#email3").val() );
-        });
-		}
-	
-		$('form').submit(function() {
-			var semail1 = $('input[name=semail1]').val();
-			var semail2 = $('input[name=semail2]').val();
-			var semail = semail1 + '@' + semail2;
-			$('input[name=semail]').val(semail);
+		//아이디 중복체크 유효성
+		var cchk = f.chk.value;
+		if(cchk != 0){
+			alert("아이디 중복 확인 후 가입 가능합니다.");
+			f.chk.select();
 			return false;
-		});
-	});
-	f.submit;
+		}
+		if(cchk == ""){
+			alert("아이디 중복 확인 후 가입 가능합니다.");
+			f.chk.select();
+			return false;
+		}
+		//이메일
+		
+		
+		var vemail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){4,20}$/;
+		var cemail = f.semail1.value;
+		if (cemail == "") {
+			alert("이메일은 공백일 수 없습니다.");
+			f.semail1.select();
+			return false;
+		}
+		if (!vemail.test(cemail)) {
+			alert("이메일은 영문자와 숫자 4~20자리로 입력해야합니다.");
+			f.semail1.select();
+			return false;
+		}
+		var cemail2 = f.semail2.value;
+		if (cemail2 == "") {
+			alert("메일주소를 선택해주세요.");
+			f.semail2.select();
+			return false;
+		}
+		var semail1 = $('#semail1').val();
+		var semail2 = $('#semail2').val();
+		var semail = semail1 + '@' + semail2;
+		$('#semail1').val(semail);		
+		
+		f.submit();
+}
+	
+
 </script>
 <title>판매자 회원가입</title>
 </head>
 <body>
-	<form name="form" action="sinsave" method="post">
-		<table border="1" align="center">
+	<form name="form" action="/shop/sellerAjax/sinsave" method="post">
+	<input type="hidden" name="chk" id="chk1">
+		<table  align="center">
 			<tr>
 				<td>아이디</td>
-				<td><input type="text" name="sellerid" id="sellerid">
-					<button type="button" id="idCheck" value="N" onclick="idCheck();">중복체크</button>
-				</td>
+				<td><input type="text" name="sellerid" id="id" >
+					<button type="button" id="idCheck">중복체크</button></td>
 			</tr>
 			<tr>
 				<td>패스워드</td>
-				<td><input type="password" name="sellerpw" id="sellerpw"></td>
+				<td><input type="password" name="sellerpw" id="sellerpw" style="margin-right: 59px;"></td>
 			</tr>
 			<tr>
 				<td>패스워드 확인</td>
-				<td><input type="password" name="sellerpw2" id="sellerpw2"></td>
+				<td><input type="password" name="sellerpw2" id="sellerpw2" style="margin-right: 59px;"></td>
 			</tr>
 			<tr>
 				<td>상호명</td>
-				<td><input type="text" name="scomname"></td>
+				<td><input type="text" name="scomname" style="margin-right: 59px;"></td>
 			</tr>
 			<tr>
 				<td>대표자</td>
-				<td><input type="text" name="sprename"></td>
+				<td><input type="text" name="sprename" style="margin-right: 59px;"></td>
 			</tr>
 			<tr>
 				<td>사업자번호</td>
-				<td><input type="text" name="sbusnum"></td>
+				<td><input type="text" name="sbusnum" style="margin-right: 59px;"></td>
 			</tr>
 			<tr>
 				<td>통신판매 신고번호</td>
-				<td><input type="text" name="scomsalenum"></td>
+				<td><input type="text" name="scomsalenum" style="margin-right: 59px;"></td>
 			</tr>
 			<tr>
 				<td>사업장 소재지</td>
-				<td><input type="text" name="scomaddress"></td>
+				<td><input type="text" name="scomaddress" style="margin-right: 59px;"></td>
 			</tr>
 			<tr>
 				<td>이메일</td>
-				<td><input type="text" name="semail1" id="semail1">@
-				<input type="text" name="semail2" id="semail2"> 
-				<select name="semail3" id="semail3" title="이메일 주소 선택" onchange="selectEmail(this)">
+				<td><input type="text" name="semail1" id="semail1">@ <input
+					type="text" name="semail2" id="semail2"> <select
+					name="semail3" id="semail3" title="이메일 주소 선택"
+					onchange="selectEmail(this)">
 						<option value="1">직접입력</option>
 						<option value="naver.com">naver.com</option>
 						<option value="gmail.com">gmail.com</option>
@@ -163,11 +207,11 @@
 			<tr>
 				<td>연락처</td>
 				<td><input type="text" name="smobile"
-					placeholder="ex) 010-1234-5678"></td>
+					placeholder="ex) 010-1234-5678" style="margin-right: 59px;"></td>
 			</tr>
 			<tr>
 				<td>회원가입일</td>
-				<td><input type="date" name="srgtdate" id="todayin" readonly></td>
+				<td><input type="date" name="srgtdate" id="todayin" readonly style="margin-right: 59px;"></td>
 			</tr>
 			<tr>
 

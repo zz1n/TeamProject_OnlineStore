@@ -6,52 +6,86 @@
 <html>
 <head>
 <style type="text/css">
+table{
+  text-align: center;
+}
 #rm {
-float: right;
+  float: right;
+}
+#lm {
+  float: left;
+}
+#rm,#lm {
+  display: inline-block;
 }
 #bm {
-float: left;
-margin-bottom: 100px;
+  padding-top: 300px;
 }
-a {
-  color: inherit;
-  text-decoration: none;
+a:hover, a:visited, a:focus {
+  text-decoration: none !important;
+  
 }
 </style>
+<script type="text/javascript">
+
+function radiobuy() {
+	var f = document.form;
+	var checkradio = document.getElementsByName('omethod');
+	var type = null;
+	
+	for(var i=0;i<checkradio.length;i++)
+		{
+		  if(checkradio[i].checked == true)
+			  {
+			    type = checkradio[i].value;
+			    
+			  }
+		}
+	if(type == null)
+		{
+		  alert("결제방법을 선택하여 주세요.");
+		  return false;
+		}
+	
+	f.action = "buysave";
+    f.method = "get";
+    f.submit();
+
+}
+</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<form action="buysave" method="get">
+<form name="form">
 <c:forEach items = "${list}" var = "aa">
- <div class="buygoods">
- <div class="col-md-4">
  <input type="hidden" value="${aa.pcode }" name="pcode">
  <input type="hidden" value="${aa.scode }" name="scode">
  <input type="hidden" value="${aa.pname }" name="pname">
+ <input type="hidden" value="${aa.price*bb+aa.pshipcost}" name="totcharge">
  <input type="hidden" value="${bb }" name="bb">
-  <table border="1" width="600" id="lm">
+ <div class="buygoods">
+ <div id="lm">
+  <table  width="600">
    
     <tr>
      <th colspan="4"><h2>주문 상품</h2></th>
     </tr>
-    
     <tr>
      <td rowspan="5"><img src="${pageContext.request.contextPath }/image/${aa.pthumbnail }" width="300" height="150"/></td>
     </tr>
     
     <tr>
-     <td>${aa.pname }</td>
+     <td>${aa.pname }&nbsp;${bb }개</td>
     </tr>
     
     <tr>
      <td>${aa.price*bb }원</td>
     </tr>
-
   </table>
  </div>
-  <div class="col-md-4" id="rm">
-   <table border="1" width="300" height="400">
+  <div id="rm">
+   <table  width="300" height="400">
      <tr>
       <th colspan="4"><h2>결제 금액</h2></th>
      </tr>
@@ -72,22 +106,22 @@ a {
      </tr>
      
      <tr>
-      <td colspan="2"><input type="submit" value="결제하기"></td>
+      <td colspan="2"><input type="button" value="결제하기" onclick="radiobuy()"></td>
      </tr>
      
    </table>
   </div>
-  <div class="col-md-4" id="bm">
-   <table border="1" width="600">
+  <div id="bm">
+   <table  width="600">
      <tr>
       <th colspan="4"><h2>결제 방법</h2></th>
      </tr>
      
      <tr>
-      <td><input type="checkbox" value="무통장입금" name ="omethod">무통장입금 </td>
-      <td><input type="checkbox" value="실시간계좌이체" name ="omethod">실시간계좌이체 </td>
-      <td><input type="checkbox" value="신용카드" name ="omethod">신용카드 </td>
-     </tr>   
+      <td><input type="radio" value="무통장입금" name ="omethod" id ="mu">무통장입금 </td>
+      <td><input type="radio" value="실시간계좌이체" name ="omethod" id ="sil">실시간계좌이체 </td>
+      <td><input type="radio" value="신용카드" name ="omethod" id ="sin">신용카드 </td>
+     </tr>  
    </table>
   </div>
  </div>

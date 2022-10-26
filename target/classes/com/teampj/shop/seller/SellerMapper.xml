@@ -22,16 +22,6 @@
 <!-- scode insert 할 때, 칼럼값을 'S'||LPAD(SEQ_sellerDB.NEXTVAL,5,0) -->
 
 <!-- 철민 -->
-	<!-- 판매자 회원가입 -->
-	<insert id="sellerin">
-		insert into sellerdb
-		values('S'||LPAD(SEQ_sellerDB.NEXTVAL,5,0),#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9},#{param10},default)
-	</insert>
-	<!-- 아이디 중복체크 -->
-	<select id="idCheck" parameterType="String" >
-		select
-		count(*) from sellerdb where sellerid =#{param1}
-	</select>
 	<!-- 로그인 아이디,비밀번호 체크 -->
 	<select id="loginCheck" parameterType="String" resultType="int">
 	 select count(*) from sellerdb where sellerid=#{param1} and sellerpw=#{param2}
@@ -43,5 +33,18 @@
 	<!-- 아이디 찾기 -->
 
 	<!-- 비밀번호 찾기 -->
-
+	<!-- 회원정보 수정 불러오기 -->
+	<select id="sellerup" parameterType="String" resultMap="dto">
+	select * from sellerdb where scode = #{param1}
+	</select>
+	<!-- 회원정보 수정 저장하기 -->
+	<update id="sellerupsave">
+	update sellerdb set sellerpw=#{param3},scomname=#{param4},sprename=#{param5} ,sbusnum=#{param6} ,scomsalenum=#{param7} , scomaddress=#{param8} ,semail=#{param9} ,smobile=#{param10} where scode=#{param1} and sellerid=#{param2}
+	</update>
+    <!-- 창용 -->
+    <select id="login" resultType="String">
+    select scode
+    from sellerdb
+    where sellerid=#{param1} and sellerpw=#{param2}
+    </select>
 </mapper>

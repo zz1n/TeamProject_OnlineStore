@@ -2,9 +2,15 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+table {
+  margin: 0 auto;
+}
+</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -27,18 +33,18 @@
 </head>
 <body>
 <h3 style="text-align:center;">좋아요</h3>
-	<form action="checkdel" method="post">
-		<table style="width: 500px" align="center">
+	<form action="likedel" method="post">
+		<table  style="width: 500px" align="center">
 			<tr>
-				<th><input type="checkbox" id="cbx_chkAll" value="전체 선택"></th>
+				<th style="text-align: center;">전체 선택<input type="checkbox" id="cbx_chkAll" value="전체 선택"></th>
 				<th>제품사진</th> <th>제품이름</th> <th>가격</th>
 				
 			</tr>
-		<c:forEach var="i" begin="0" end="${fn:length(list)-1}" step="1">
+		<c:forEach var="li" items="${list }" varStatus="status">
 			<tr>
-				<td><input type="checkbox" name="chk" value="${list[i].pcode }" ></td>
-				<td>${list[i].pthumbnail }</td> <td>${list[i].pname }</td> <td>${list[i].price }</td>
-				
+				<td><input type="checkbox" name="chk" value="${list2[status.index].ccode }" ></td>
+				<td><img src="${pageContext.request.contextPath }/image/${li.pthumbnail }" width="100" height="100"/></td> <td><a href="detail?pcode=${li.pcode }">${li.pname }</a></td>
+				<td><fmt:formatNumber value="${li.price }" pattern="#,###,#00원"></fmt:formatNumber></td>
 			</tr>
 		</c:forEach>
 			<tr>

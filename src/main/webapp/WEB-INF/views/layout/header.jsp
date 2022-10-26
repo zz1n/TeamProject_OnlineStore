@@ -1,17 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+function order() {
+	var f = document.form;
+	
+	let signIn = "${signIn}";
+	if (signIn == "")
+		{
+		  location.href="${cpata}/shop/user/login";
+		  alert("로그인 후 이용 가능합니다.");
+		}
+	else
+		{
+		location.href="${cpata}/shop/order/orderlist";
+		
+		}
+	
+}
+
+</script>
 <style type="text/css">
-a {
-  color: inherit;
-  text-decoration: none;
+a:hover, a:visited, a:focus {
+text-decoration: none !important;
 }
 html, body{
 width: 100%;
@@ -68,18 +85,28 @@ margin: 0 auto;
 </style>
 </head>
 <body>
-<form action="search" method="get">
+<form action="search" method="get"> 
   <div class="header">
     <div id="container">
       <div class="container-left clearfix">
         <div class="logo">
-         <a href="home"><h1>랭킹닭컴</h1></a>
+         <a href="/shop/list/main"><h1>DieTy</h1></a>
         </div>
           <div class="login">
-            <a href="#">로그인</a>&nbsp;|
-            <a href="#">회원가입</a>&nbsp;|
-            <a href="#">주문조회</a>&nbsp;|
-            <a href="#">고객센터</a>
+            <c:choose>
+              <c:when test="${loginstate==true }">
+                <a href=""> ${member }</a>&nbsp;|
+                <a href="/shop/order/orderlist?stnrd=0"> 마이페이지</a>&nbsp;|
+                <a href="/shop/list/logout"> 로그아웃</a>&nbsp;|
+                <a href="#">고객센터</a>
+              </c:when>
+              <c:otherwise>
+                <a href="/shop/user/login"> 로그인</a>&nbsp;|
+                <a href="/shop/list/orderlist" onclick="order()">마이페이지</a>&nbsp;|
+                <a href="/shop/user/loginn"> 회원가입</a>&nbsp;|                  
+                <a href="#">고객센터</a>
+              </c:otherwise>
+            </c:choose>
           </div>
 	    <div class="header-search" id="search">	  
 	        <input type="text" id="rankKeyword"

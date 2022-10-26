@@ -3,7 +3,7 @@ package com.teampj.shop.sellerOrder;
 public class SellerOrderDTO {
 
 	String scode, ocode, uname, ucode, umobile, pname, oaddress, odate, oshipcomp, oshipcode;
-	int ocount, ocharge, ozipcode, ostate;
+	int ocount, ocharge, ozipcode, ostate,oshipstate;
 
 	public SellerOrderDTO() {
 		super();
@@ -11,7 +11,7 @@ public class SellerOrderDTO {
 
 	public SellerOrderDTO(String scode, String ocode, String uname, String ucode, String umobile, String pname,
 			String oaddress, String odate, String oshipcomp, String oshipcode, int ocount, int ocharge, int ozipcode,
-			int ostate) {
+			int ostate, int oshipstate) {
 		super();
 		this.scode = scode;
 		this.ocode = ocode;
@@ -27,6 +27,7 @@ public class SellerOrderDTO {
 		this.ocharge = ocharge;
 		this.ozipcode = ozipcode;
 		this.ostate = ostate;
+		this.oshipstate = oshipstate;
 	}
 
 	public String getScode() {
@@ -140,6 +141,15 @@ public class SellerOrderDTO {
 	public void setOstate(int ostate) {
 		this.ostate = ostate;
 	}
+
+	public int getOshipstate() {
+		return oshipstate;
+	}
+
+	public void setOshipstate(int oshipstate) {
+		this.oshipstate = oshipstate;
+	}
+
 
 
 }

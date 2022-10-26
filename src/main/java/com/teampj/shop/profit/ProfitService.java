@@ -1,17 +1,16 @@
 package com.teampj.shop.profit;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface ProfitService {
 	
-	//철민
-	public List<ProfitDTO> getIncome(String scode, String begindate, String enddate);
-
-	public List<ProfitDTO> profitOut();
-
-	public ArrayList<ProfitDTO> testin(String scode, String begindate, String enddate);
-
+	//
 	public ArrayList<ProfitDTO> testout();
-
+	//일 매출조회(day profit serch)
+	public ArrayList<ProfitDTO> dayprofitcall(String scode,  String begindate, String enddate);
+	//월 매출조회(month profit serch)
+	public ArrayList<ProfitDTO> monthprofitcall(String scode,  String begindate, String enddate);
+	//상품 매출조회(pname profit serch)
+	public ArrayList<ProfitDTO> pnameprofitcall(String scode, String pcode, String begindate, String enddate);
+	
 }

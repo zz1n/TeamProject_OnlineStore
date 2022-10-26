@@ -1,6 +1,11 @@
 package com.teampj.shop.seller;
 
+import java.io.PrintWriter;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONObject;
@@ -12,7 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -36,31 +43,38 @@ public class SellerController {
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView mainhome(Model model) {
-		mav.setView(new RedirectView("/shop")); // 다른 컨트롤러로 viewname
+		mav.setView(new RedirectView("/shop")); // �뜝�럥堉꾬옙紐닷뜝占� 占쎈슓維귨옙諭쒎슖�뼯�걞占쎌몠�슖�댙�삕 viewname
 		return mav;
 	}
 
-	// 판매자 로그인화면 전송
+	// �뜝�럥�냷嶺뚮씞�걠占쎌겱 �슖�돦裕꾬옙�쟽�뜝�럩逾ε뜝�럩�꼨嶺뚮〕�삕 �뜝�럩�쓧�뜝�럥苑�
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public ModelAndView home(Model model) {
 		mav.setViewName("sellerindex");
 		return mav;
 	}
 
-	// 로그인 체크,메인화면으로 전송
+	// �슖�돦裕꾬옙�쟽�뜝�럩逾� 嶺뚳퐢�샑野껓옙,嶺뚮∥�뾼占쎈데�뜝�럩�꼨嶺뚮∥�샍占쎈さ�슖�댙�삕 �뜝�럩�쓧�뜝�럥苑�
 	@RequestMapping(value = "/loginCheck", method = RequestMethod.POST)
-	public ModelAndView loginCheck(HttpServletRequest request, Model mo) {
+	public ModelAndView loginCheck(HttpServletRequest request, Model mo, RedirectAttributes red) {
+
 		String sellerid = request.getParameter("sellerid");
 		String sellerpw = request.getParameter("sellerpw");
-		String nowtime = request.getParameter("nowtime");
+
 		SellerService ss = sqlSession.getMapper(SellerService.class);
+		String scode = ss.login(sellerid, sellerpw);
+		
 		int loginchk = ss.loginCheck(sellerid, sellerpw);
 		if (loginchk == 1) {
-			String scode = ss.logincode(sellerid);
-			mo.addAttribute("scode", scode);
-			mo.addAttribute("nowtime", nowtime);
-			System.out.println(nowtime);
-			mav.setView(new RedirectView("/shop/sellerOrder/sellermain"));
+
+			if (scode != null) {
+				HttpSession hs = request.getSession();
+				hs.setAttribute("member", scode);
+				hs.setAttribute("loginstate", true);
+				System.out.println(scode + " sto sellercontroller");
+				mav.setView(new RedirectView("/shop/sellerOrder/sellermain"));
+			}
+
 		} else {
 			mav.setViewName("sellerindex");
 		}
@@ -68,7 +82,9 @@ public class SellerController {
 		return mav;
 	}
 
-	// 판매자 메인 // 로그인 성공 추가로 주문내역을 불러와서 셀러메인페이지에 넘겨줘야함.
+	// �뜝�럥�냷嶺뚮씞�걠占쎌겱 嶺뚮∥�뾼占쎈데 // �슖�돦裕꾬옙�쟽�뜝�럩逾� �뜝�럡�뎽占썩뫅�삕 占쎈퉲�겫�룞�삕�슖�댙�삕
+	// �썒�슣�닑�룇�뜝�럡���뜝�럥�뿴�뜝�럩諭� 占쎄껀占쎈쐞占쎌몠�뜝�룞�삕�뜝�럡�맋
+	// �뜝�룞�삕�뜝�럩�몠嶺뚮∥�뾼占쎈데�뜝�럥�쓡�뜝�럩逾좂춯�쉻�삕�뜝�럥�뱺 �뜝�럡�맂�뇦爰용쳛鸚룹뼲�삕�뜮�쉻�삕�뇡占�.
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView sellermain(HttpServletRequest request, Model mo) {
 		String sellerid = request.getParameter("sellerid");
@@ -80,28 +96,25 @@ public class SellerController {
 		return mav;
 	}
 
-	// 판매자 회원가입 화면으로 전송
+	// �뜝�럥�냷嶺뚮씞�걠占쎌겱 �뜝�럩�뤂�뜝�럩�쐸�뤆�룊�삕�뜝�럩肉� �뜝�럩�꼨嶺뚮∥�샍占쎈さ�슖�댙�삕 �뜝�럩�쓧�뜝�럥苑�
 	@RequestMapping(value = "/sellerinput", method = RequestMethod.GET)
-	public ModelAndView sellerinput(Model model) {
+	public ModelAndView sellerinput() {
 		mav.setViewName("sellerinput");
 		return mav;
 	}
-
-	// 아이디 중복확인
-	@RequestMapping(value = "/idCheck", method = RequestMethod.GET)
-	public int idCheck(SellerDTO dto, HttpServletRequest request) {
-
+	@RequestMapping(value = "/sellerup", method = RequestMethod.GET)
+	public ModelAndView sellerup(Model mo,HttpServletRequest request) {
+		String scode = request.getParameter("scode");
 		SellerService ss = sqlSession.getMapper(SellerService.class);
-
-		int cnt = ss.idCheck();
-
-		return cnt;
+		SellerDTO sto =ss.sellerup(scode);
+		mo.addAttribute("sto",sto);
+		mo.addAttribute("scode", scode);
+		mav.setViewName("sellerupdate");
+		return mav;
 	}
-
-	// 판매자 회원가입 저장
-	@RequestMapping(value = "/sinsave", method = RequestMethod.POST)
-	public ModelAndView sellerin(HttpServletRequest request) {
-
+	@RequestMapping(value = "/sellerupsave", method = RequestMethod.GET)
+	public ModelAndView sellerupsave(HttpServletRequest request,Model mo) {
+		String scode = request.getParameter("scode");
 		String sellerid = request.getParameter("sellerid");
 		String sellerpw = request.getParameter("sellerpw");
 		String scomname = request.getParameter("scomname");
@@ -111,13 +124,14 @@ public class SellerController {
 		String scomaddress = request.getParameter("scomaddress");
 		String semail = request.getParameter("semail");
 		String smobile = request.getParameter("smobile");
-		String srgtdate = request.getParameter("srgtdate");
-
+		System.out.println(scode+sellerid+sellerpw+scomname+sprename+sbusnum+scomsalenum+scomaddress+semail+smobile);
 		SellerService ss = sqlSession.getMapper(SellerService.class);
-		ss.sellerin(sellerid, sellerpw, scomname, sprename, sbusnum, scomsalenum, scomaddress, semail, smobile,
-				srgtdate);
-		mav.setViewName("sellerindex");
+		ss.sellerupsave(scode,sellerid,sellerpw,scomname,sprename,sbusnum,scomsalenum,scomaddress,semail,smobile);
+		ModelAndView mav1 = new ModelAndView();
+		mav1.addObject("scode",scode);
+		mav.setView(new RedirectView("/shop/sellerOrder/sellermain"));
 		return mav;
 	}
+	
 
 }

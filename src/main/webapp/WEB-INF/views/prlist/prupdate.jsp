@@ -17,6 +17,7 @@
    <option value="육류">육류</option>
    <option value="음료">음료</option>
    <option value="채소">채소</option>
+   <option value="생선">생선</option>
 </select>
 
 
@@ -26,8 +27,10 @@
    <option value="정육" class="육류">정육</option>
    <option value="탄산음료" class="음료">탄산음료</option>
    <option value="이온음료" class="음료">이온음료</option>
-   <option value="토마토" class="채소">토마토</option>
-   <option value="상추" class="채소">상추</option>
+   <option value="샐러드" class="채소">샐러드</option>
+   <option value="생채소" class="채소">생채소</option>
+   <option value="흰살생선" class="생선">흰살생선</option>
+   <option value="붉은살생선" class="생선">붉은살생선</option>
 </select>
 
 <c:forEach items="${update}" var="up">
@@ -42,7 +45,7 @@
 반품배송비 : <input type="text" name="preshipcost" value="${up.preshipcost}"  ><br>
 도서산간배송비 : <input type="text" name="pspshipcost" value="${up.pspshipcost}"  ><br>
 상품썸네일 : <input type="file" name="pthumbnail" value="${up.pthumbnail}"  ><br>
-상품설명 : <input type="text" name="pdscrpt" value="${up.pdscrpt}"  ><br>
+상품설명 : <textarea cols="300" row="300" name="pdscrpt" value="${up.pdscrpt}"></textarea><br>
 태그 : <input type="text" name="ptag" value="${up.ptag}"  ><br>
 상품등록일 : <input type="text" name="prgtdate" value="${up.prgtdate}" readonly >자동으로 수정일이 기입됩니다.<br>
  <input type="submit" value="전송"><br>

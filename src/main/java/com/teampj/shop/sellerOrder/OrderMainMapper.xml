@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="com.teampj.shop.sellerOrder.OrderMainService">
     
-    <resultMap type="com.teampj.shop.sellerOrder.OrderMainDTO" id="dto">
+    <resultMap type="com.teampj.shop.sellerOrder.OrderMainDTO" id="mdto">
     <result property="daycost" column="daycost"/>
     <result property="monthcost" column="monthcost"/>
     <result property="dayrefund" column="dayrefund"/>
@@ -18,7 +18,7 @@
     </resultMap>
     
     <!-- 판매자 메인 페이지 데이터 출력 -->
-    <select id="mainOut" parameterType="String" resultMap="dto">
+    <select id="mainOut" parameterType="String" resultMap="mdto">
     select 
     <!-- 일 주문 금액 -->
      nvl((select sum(ocharge) from orderdb where to_date(odate, 'YY/MM/DD') = to_date(sysdate, 'YY/MM/DD') and scode=#{param1}), 0) as daycost, 

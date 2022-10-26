@@ -102,6 +102,16 @@
 	</servlet-mapping>
 	<servlet>
 		<description></description>
+		<display-name>SellerAjaxController</display-name>
+		<servlet-name>SellerAjaxController</servlet-name>
+		<servlet-class>com.teampj.shop.sellerAjax.SellerAjaxController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SellerAjaxController</servlet-name>
+		<url-pattern>/sellerAjax</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
 		<display-name>UserController</display-name>
 		<servlet-name>UserController</servlet-name>
 		<servlet-class>com.teampj.shop.user.UserController</servlet-class>

@@ -1,16 +1,13 @@
 package com.teampj.shop.sellerOrder;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
-import com.teampj.shop.sellerOrder.SellerOrderService;
-import com.teampj.shop.sellerOrder.SellerOrderDTO;
+import com.teampj.shop.seller.SellerDTO;
 
 @Controller
 @RequestMapping(value = "/sellerOrder/*")
@@ -39,87 +32,92 @@ public class SellerOrderController {
 	JSONParser jp = new JSONParser();
 	JSONObject jo;
 
-	// ÆÇ¸ÅÀÚ ¸ŞÀÎÆäÀÌÁö
+	// ï¿½ëœï¿½ë–ï§ëš¯ì‚•ï¿½ëœï¿½ë£ï¿½ì‚• ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•
 	@RequestMapping(value = "/sellermain", method = RequestMethod.GET)
 	public ModelAndView sellermain(HttpServletRequest request, Model mo) {
-		String scode = request.getParameter("scode");
-		System.out.println(scode);
+		HttpSession hs = request.getSession();
+		String scode = (String) hs.getAttribute("member");
+
 		OrderMainService oms = sqlSession.getMapper(OrderMainService.class);
 		ArrayList<OrderMainDTO> list = oms.mainOut(scode);
-		System.out.println(list);
-		mav.addObject("list", list);
-		mav.addObject("scode", scode);
-		/*
-		 * mav.addObject("list",request.getParameter("list"));
-		 * mav.addObject("scode",request.getParameter("scode"));
-		 */
+		System.out.println(list + " list");
+		System.out.println(scode + "sellermain");
+		hs.setAttribute("seller", scode); // hs.setAttribute("seller", sto);
+		mo.addAttribute("list", list);
+		mo.addAttribute("scode", scode);
+
 		mav.setViewName("sellermain");
 		return mav;
 	}
 
-	// ¸ÅÃâ³»¿ª Á¶È¸
-	@RequestMapping(value = "/sellersales", method = RequestMethod.GET)
-	public ModelAndView sellersales(HttpServletRequest request, Model mo) {
-		String scode = request.getParameter("scode");
-		mo.addAttribute("scode", scode);
-		mav.setView(new RedirectView("/shop/profit/main"));
-		return mav;
-	}
-
-	// »óÇ° ÁÖ¹®³»¿ª (¹è¼Û°ü¸®)
+	// ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ë­¹ ï¿½ëœï¿½ë™‡è«­ê¾©ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚• (ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ë¼¶ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœå ï¿½)
 	@RequestMapping(value = "/sellerorder", method = RequestMethod.GET)
 	public ModelAndView selleroder(HttpServletRequest request, Model mo) {
 		String scode = request.getParameter("scode");
 		mo.addAttribute("scode", scode);
+		System.out.println(scode + "sellerorder");
 		mav.setViewName("sellerorder");
 		return mav;
 	}
 
-	// ¹è¼Û°ü¸®
+	// ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë–•å ï¿½
 	@RequestMapping(value = "/sellerorder1", method = RequestMethod.GET)
 	public ModelAndView selleroder1(HttpServletRequest request, Model mo) {
 
 		String scode = request.getParameter("scode");
+		System.out.println(scode + "sellerorder1");
 		String serchcolumn = request.getParameter("serchcolumn");
 		String serchname = request.getParameter("serchname");
 		String orderday1 = request.getParameter("orderday1");
 		String orderday2 = request.getParameter("orderday2");
 
-		SellerOrderService ss = sqlSession.getMapper(SellerOrderService.class);
-		System.out.println(scode + serchcolumn + serchname + orderday1 + orderday2);
+		if (orderday1 != "" && orderday2 != "" || serchcolumn != "" && serchname != "") {
 
-		ArrayList<SellerOrderDTO> list = ss.orderview(scode, serchcolumn, serchname, orderday1, orderday2);
+			SellerOrderService ss = sqlSession.getMapper(SellerOrderService.class);
+			System.out.println(scode + serchcolumn + serchname + orderday1 + orderday2);
 
-		mo.addAttribute("list", list);
-		mo.addAttribute("scode", scode);
-		mav.setViewName("sellerorderview");
+			ArrayList<SellerOrderDTO> list = ss.orderview(scode, serchcolumn, serchname, orderday1, orderday2);
+
+			mo.addAttribute("list", list);
+			mo.addAttribute("scode", scode);
+			mav.setViewName("sellerorderview");
+		} else {
+			mo.addAttribute("scode", scode);
+			mav.setViewName("redirect:sellerorder");
+		}
 
 		return mav;
 	}
 
-	// ¹è¼ÛÃß°¡Á¶È¸
+	// ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ë€§ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë–•å ï¿½
 	@RequestMapping(value = "/sellerorder2", method = RequestMethod.GET)
 	public ModelAndView selleroder2(HttpServletRequest request, Model mo) {
 
 		String scode = request.getParameter("scode");
+		System.out.println(scode + "sellerorder2");
 		String serchcolumn = request.getParameter("serchcolumn");
 		String serchname = request.getParameter("serchname");
 		String orderday1 = request.getParameter("orderday1");
 		String orderday2 = request.getParameter("orderday2");
 
-		SellerOrderService ss = sqlSession.getMapper(SellerOrderService.class);
-		System.out.println(scode + serchcolumn + serchname + orderday1 + orderday2);
+		if (orderday1 != "" && orderday2 != "" || serchcolumn != "" && serchname != "") {
+			SellerOrderService ss = sqlSession.getMapper(SellerOrderService.class);
+			System.out.println(scode + serchcolumn + serchname + orderday1 + orderday2);
 
-		ArrayList<SellerOrderDTO> list = ss.orderview(scode, serchcolumn, serchname, orderday1, orderday2);
+			ArrayList<SellerOrderDTO> list = ss.orderview(scode, serchcolumn, serchname, orderday1, orderday2);
 
-		mo.addAttribute("list", list);
-		mo.addAttribute("scode", scode);
-		mav.setViewName("sellerorderview");
+			mo.addAttribute("list", list);
+			mo.addAttribute("scode", scode);
+			mav.setViewName("sellerorderview");
+		} else {
+			mo.addAttribute("scode", scode);
+			mav.setViewName("redirect:sellerorder");
+		}
 
 		return mav;
 	}
 
-	// ¼ÛÀå¹øÈ£ ÀúÀå (¹è¼Û°ü¸®)
+	// ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë–•å ï¿½ ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚• (ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ë¼¶ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœå ï¿½)
 	@RequestMapping(value = "/oshipsave", method = RequestMethod.GET)
 	public ModelAndView sellershipsave(HttpServletRequest request, Model mo) {
 		SellerOrderService ss = sqlSession.getMapper(SellerOrderService.class);
@@ -129,29 +127,37 @@ public class SellerOrderController {
 		String[] chk = request.getParameterValues("chk");
 		String[] oshipcomp = request.getParameterValues("oshipcomp");
 		String[] oshipcode = request.getParameterValues("oshipcode");
+		String[] oshistate = request.getParameterValues("oshipstate");
 
-		for (int i = 0; i <= (chk.length - 1); i++) {
-			System.out.println(scode + ocode[Integer.parseInt(chk[i])] + oshipcomp[Integer.parseInt(chk[i])]
-					+ oshipcode[Integer.parseInt(chk[i])]);
-			int k = ss.oshipUpdate(scode, ocode[Integer.parseInt(chk[i])], oshipcomp[Integer.parseInt(chk[i])],
-					oshipcode[Integer.parseInt(chk[i])]);
-			System.out.println(k);
+		if (scode != "" && "".equals(ocode) && "".equals(chk)) {
+			for (int i = 0; i <= (chk.length - 1); i++) {
+				System.out.println(scode + ocode[Integer.parseInt(chk[i])] + oshipcomp[Integer.parseInt(chk[i])]
+						+ oshipcode[Integer.parseInt(chk[i])] + oshistate[Integer.parseInt(chk[i])]);
+				int k = ss.oshipUpdate(scode, ocode[Integer.parseInt(chk[i])], oshipcomp[Integer.parseInt(chk[i])],
+						oshipcode[Integer.parseInt(chk[i])], oshistate[Integer.parseInt(chk[i])]);
+				System.out.println(k);
+			}
+			mo.addAttribute("scode", scode);
+			mav.setViewName("sellerorder");
+		} else {
+			mo.addAttribute("scode", scode);
+			mav.setViewName("redirect:sellerorder");
 		}
-		mo.addAttribute("scode", scode);
-		mav.setViewName("sellerorder");
 		return mav;
 	}
 
-	// È¯ºÒ¿äÃ» Á¶È¸ ÆäÀÌÁö ÀÌµ¿
+	// ï¿½ì†šï¿½ëœï¿½ï¿½ï¿½ìŠ±ï¿½ì‚•ï§£ï¿½ ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ì‰¶ ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚• ï¿½ëœï¿½ë–›ï¿½ë²ï¿½ì‚•
 	@RequestMapping(value = "/sellRefund", method = RequestMethod.GET)
-	public ModelAndView sellrefund() {
+	public ModelAndView sellrefund(HttpServletRequest request, Model mo) {
+		String scode = request.getParameter("scode");
+		mo.addAttribute("scode", scode);
 		mav.setViewName("sellRefund");
 		return mav;
 	}
 
-	// È¯ºÒÁ¶È¸
+	// ï¿½ì†šï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ì‰¶
 	@RequestMapping(value = "/sellrefund1", method = RequestMethod.GET)
-	public ModelAndView sellrefund(HttpServletRequest request, Model mo) {
+	public ModelAndView sellrefundview(HttpServletRequest request, Model mo) {
 
 		String scode = request.getParameter("scode");
 		String serchcolumn = request.getParameter("serchcolumn");
@@ -159,20 +165,25 @@ public class SellerOrderController {
 		String ostate = request.getParameter("ostate");
 		String orderday1 = request.getParameter("orderday1");
 		String orderday2 = request.getParameter("orderday2");
+		if (orderday1 != "" && orderday2 != "" || serchcolumn != "" && serchname != "") {
+			SellerOrderService ss = sqlSession.getMapper(SellerOrderService.class);
+			System.out.println(scode + serchcolumn + serchname + orderday1 + orderday2);
 
-		SellerOrderService ss = sqlSession.getMapper(SellerOrderService.class);
-		System.out.println(scode + serchcolumn + serchname + orderday1 + orderday2);
+			ArrayList<SellerOrderDTO> list = ss.refundview(scode, serchcolumn, serchname, ostate, orderday1, orderday2);
 
-		ArrayList<SellerOrderDTO> list = ss.refundview(scode, serchcolumn, serchname, ostate, orderday1, orderday2);
-
-		mo.addAttribute("list", list);
-		mo.addAttribute("scode", scode);
-		mav.setViewName("sellrefundview");
+			mo.addAttribute("list", list);
+			mo.addAttribute("scode", scode);
+			mav.setViewName("sellrefundview");
+		} else {
+			mo.addAttribute("scode", scode);
+			mav.setViewName("redirect:sellRefund");
+		}
 
 		return mav;
 	}
 
-	// È¯ºÒ³»¿ª ÀúÀå (¹è¼Û°ü¸®)
+	// ï¿½ì†šï¿½ëœï¿½ï¿½ï¿½ëƒ²ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚• ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœï¿½ë£ï¿½ì‚• (ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ë¼¶ï¿½ëœï¿½ë£ï¿½ì‚•ï¿½ëœå ï¿½)
+	@SuppressWarnings("unused")
 	@RequestMapping(value = "/refundsave", method = RequestMethod.GET)
 	public ModelAndView sellrefundsave(HttpServletRequest request, Model mo) {
 		SellerOrderService ss = sqlSession.getMapper(SellerOrderService.class);
@@ -185,32 +196,36 @@ public class SellerOrderController {
 		String[] ostate = request.getParameterValues("ostate");
 		// int[] ostate = new int[ostate1.length];
 		String[] pshipcost = request.getParameterValues("pshipcost");
-
 		String[] shipprice = request.getParameterValues("shipprice");
-		/*
-		 * for (int j = 0; j <= ostate1.length; j++) { ostate[j] =
-		 * Integer.parseInt(ostate1[j]);
-		 */
-		for (int i = 0; i <= (chk.length - 1); i++) {
-			System.out.println(scode + "" + ocode[Integer.parseInt(chk[i])] + "" + oshipcomp[Integer.parseInt(chk[i])]
-					+ "" + oshipcode[Integer.parseInt(chk[i])] + "" + ostate[Integer.parseInt(chk[i])] + ""
-					+ pshipcost[Integer.parseInt(chk[i])] + "" + shipprice[Integer.parseInt(chk[i])]);
+		String[] oshistate = request.getParameterValues("oshipstate");
 
-			int k = ss.refundsave(scode, ocode[Integer.parseInt(chk[i])], oshipcomp[Integer.parseInt(chk[i])],
-					oshipcode[Integer.parseInt(chk[i])], Integer.parseInt(ostate[Integer.parseInt(chk[i])]),
-					pshipcost[Integer.parseInt(chk[i])], Integer.parseInt(shipprice[Integer.parseInt(chk[i])]));
+		if (scode != "" && "".equals(ocode) && "".equals(chk)) {
+			for (int i = 0; i <= (chk.length - 1); i++) {
+				System.out.println(scode + ocode[Integer.parseInt(chk[i])] + "" + oshipcomp[Integer.parseInt(chk[i])]
+						+ "" + oshipcode[Integer.parseInt(chk[i])] + "\t" + ostate[Integer.parseInt(chk[i])] + "\t"
+						+ pshipcost[Integer.parseInt(chk[i])] + "\t" + shipprice[Integer.parseInt(chk[i])]);
+				if (pshipcost[Integer.parseInt(chk[i])].equals("ocharge-")) {
+					int k = ss.refundsaveseller(scode, ocode[Integer.parseInt(chk[i])],
+							oshipcomp[Integer.parseInt(chk[i])], oshipcode[Integer.parseInt(chk[i])],
+							Integer.parseInt(ostate[Integer.parseInt(chk[i])]),
+							Integer.parseInt(shipprice[Integer.parseInt(chk[i])]),
+							Integer.parseInt(ostate[Integer.parseInt(chk[i])]));
+				} else if (pshipcost[Integer.parseInt(chk[i])].equals("ocharge+")) {
+					int k = ss.refundsaveuser(scode, ocode[Integer.parseInt(chk[i])],
+							oshipcomp[Integer.parseInt(chk[i])], oshipcode[Integer.parseInt(chk[i])],
+							Integer.parseInt(ostate[Integer.parseInt(chk[i])]),
+							Integer.parseInt(shipprice[Integer.parseInt(chk[i])]),
+							Integer.parseInt(ostate[Integer.parseInt(chk[i])]));
+				}
+
+			}
+
+			mo.addAttribute("scode", scode);
+			mav.setViewName("sellrefundview");
+		} else {
+			mo.addAttribute("scode", scode);
+			mav.setViewName("redirect:sellRefund");
 		}
-		mo.addAttribute("scode", scode);
-		mav.setViewName("sellrefundview");
-		return mav;
-	}
-
-	//
-	@RequestMapping(value = "/sellRefundViwe", method = RequestMethod.GET)
-	public ModelAndView sellRefundViwe(HttpServletRequest request, Model mo) {
-		String scode = request.getParameter("scode");
-		mo.addAttribute("scode", scode);
-		mav.setViewName("sellRefundView");
 		return mav;
 	}
 }

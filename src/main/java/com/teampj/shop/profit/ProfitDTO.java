@@ -2,34 +2,24 @@ package com.teampj.shop.profit;
 
 public class ProfitDTO {
 
-	String ocode, scode, pcode, pname;
-	int oprofit, ocount;
-	String odate;
-	
+	String odate,pcode;
+	int totcost,refundcost,ocount,oprofit;
 	public ProfitDTO() {
+		super();}
+	public ProfitDTO(String odate, String pcode, int totcost, int refundcost, int ocount, int oprofit) {
 		super();
-	}
-	public ProfitDTO(String ocode, String scode, String pcode, String pname, int oprofit, int ocount, String odate) {
-		super();
-		this.ocode = ocode;
-		this.scode = scode;
-		this.pcode = pcode;
-		this.pname = pname;
-		this.oprofit = oprofit;
-		this.ocount = ocount;
 		this.odate = odate;
+		this.pcode = pcode;
+		this.totcost = totcost;
+		this.refundcost = refundcost;
+		this.ocount = ocount;
+		this.oprofit = oprofit;
 	}
-	public String getOcode() {
-		return ocode;
+	public String getodate() {
+		return odate;
 	}
-	public void setOcode(String ocode) {
-		this.ocode = ocode;
-	}
-	public String getScode() {
-		return scode;
-	}
-	public void setScode(String scode) {
-		this.scode = scode;
+	public void setodate(String odate) {
+		this.odate = odate;
 	}
 	public String getPcode() {
 		return pcode;
@@ -37,17 +27,17 @@ public class ProfitDTO {
 	public void setPcode(String pcode) {
 		this.pcode = pcode;
 	}
-	public String getPname() {
-		return pname;
+	public int getTotcost() {
+		return totcost;
 	}
-	public void setPname(String pname) {
-		this.pname = pname;
+	public void setTotcost(int totcost) {
+		this.totcost = totcost;
 	}
-	public int getOprofit() {
-		return oprofit;
+	public int getRefundcost() {
+		return refundcost;
 	}
-	public void setOprofit(int oprofit) {
-		this.oprofit = oprofit;
+	public void setRefundcost(int refundcost) {
+		this.refundcost = refundcost;
 	}
 	public int getOcount() {
 		return ocount;
@@ -55,12 +45,13 @@ public class ProfitDTO {
 	public void setOcount(int ocount) {
 		this.ocount = ocount;
 	}
-	public String getOdate() {
-		return odate;
+	public int getOprofit() {
+		return oprofit;
 	}
-	public void setOdate(String odate) {
-		this.odate = odate;
+	public void setOprofit(int oprofit) {
+		this.oprofit = oprofit;
 	}
 	
 	
+
 }

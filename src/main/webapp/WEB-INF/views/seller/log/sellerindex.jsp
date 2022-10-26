@@ -4,7 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<style type="text/css">
+table {
+  margin: 0 auto;
+}
+</style>
 <meta charset="UTF-8">
 <!-- 판매자 로그인 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -13,7 +17,7 @@
 <body>
 	<form name="fm" action="loginCheck" method="post">
 	<input type="datetime" name="nowtime" id="nowtime" readonly>
-		<table align="center">
+		<table  width="400" align="center">
 			<tr>
 				<th>아이디</th>
 				<td><input type="text" name="sellerid" id="id"></td>
@@ -28,9 +32,7 @@
 					&emsp; <input type="reset" value="취소"></td>
 			</tr>
 			<tr>
-				<td colspan="3"><a href="sellerinput">회원가입</a>&emsp;<a
-					href="selleridserch.jsp">아이디 찾기</a>&emsp;<a
-					href="sellerpwserch.jsp">비밀번호 찾기</a></td>
+				<td><a href="sellerinput">회원가입</a></td>
 			</tr>
 		</table>
 	</form>

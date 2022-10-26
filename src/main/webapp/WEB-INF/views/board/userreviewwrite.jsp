@@ -3,6 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+table {
+  margin: 0 auto;
+}
+</style>
 	<!--  jQuery, bootstrap -->
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
@@ -24,10 +29,34 @@
         });
     });
 </script>
+
+<script type="text/javascript">
+function vcheck(){
+	var f = document.form;
+	var cbname = f.bname.value;
+	var cbcont = f.bcont.value;
+	
+	if(cbname==""){
+		alert("제목은 공백일 수 없습니다.")
+		f.bname.select();
+		return false;
+	}
+	
+	if(cbcont==""){
+		alert("내용은 공백일 수 없습니다.")
+		f.bcont.select();
+		return false;
+	}
+	
+	f.submit();
+}
+</script>
+
 <title>리뷰 작성</title>
 </head>
 <body>
-	<form action="userreviewsave" method="post">
+<h3 style="text-align: center;">리뷰 작성</h3>
+	<form action="userreviewsave" method="post" name="form">
 		<table style="width: 700px">
 			<tr>
 				<td>제목</td>
@@ -35,13 +64,13 @@
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><div id="summernote" name="bcont"></div></td>
+				<td><textarea id="summernote" name="bcont"></textarea></td>
 			</tr>
 			<input type="hidden" name="userid" value="user001">	<!-- 세션에서 가져오기 -->
 			<input type="hidden" name="ocode" value="${ocode }">
 		</table>
 		<br>
-		<input type="submit" value="후기 등록">
+		<input type="button" value="후기 등록" onclick="vcheck()">
 		<input type="reset" value="작성 취소">
 	</form>
 </body>

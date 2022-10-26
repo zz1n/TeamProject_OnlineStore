@@ -1,2 +1,8 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/teampj/shop/prlist/PrListController.java=UTF-8
+encoding//src/main/java/com/teampj/shop/seller/SellerController.java=UTF-8
+encoding//src/main/java/com/teampj/shop/seller/SellerService.java=UTF-8
+encoding//src/main/java/com/teampj/shop/sellerOrder/SellerOrderController.java=UTF-8
+encoding//src/main/java/com/teampj/shop/sellerOrder/SellerOrderService.java=UTF-8
 encoding//src/main/java/com/teampj/shop/user/UserController.java=UTF-8
+encoding//src/main/java/com/teampj/shop/user/UserService.java=UTF-8

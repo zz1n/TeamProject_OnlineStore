@@ -5,6 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+table {
+  margin: 0 auto;
+}
+</style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -34,42 +39,37 @@
 <body>
 	<form name="form1" action="sellrefund1" method="get">
 		<input type="hidden" name="scode" id="scode" value="${scode }">
-		<table>
+		<table  width = "1000" align="center">
 			<tr>
-				<th>검색어</th>
-				<td><select name="serchcolumn" id="serchcolumn">
+				<th>검색어&emsp;<select name="serchcolumn" id="serchcolumn">
 						<option value="ocode">주문번호</option>
 						<option value="uname">회원명</option>
 						<option value="umobile">회원연락처</option>
 						<option value="oshipcode">송장번호</option>
-				</select></td>
+				</select></th>
 				<td><input type="text" name="serchname" id="serchname"></td>
-				<th>주문상태</th>
-				<td><select name="ostate">
+				<th rowspan="2">주문상태&emsp;<select name="ostate">
 						<option value="1">결제완료</option>
 						<option value="2">교환신청</option>
 						<option value="3">반품신청</option>
 						<option value="4">취소신청</option>
 						<option value="5">취소완료</option>
-				</select>
+				</select></th>
 			</tr>
 			<tr>
 				<th>주문기간</th>
-				<td colspan="2"><input type="date" name="orderday1"
+				<td><input type="date" name="orderday1"
 					id="orderday1">~<input type="date" name="orderday2"
-					id="orderday2"></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="right"><input type="submit" value="검색">
+					id="orderday2"><input type="submit" value="검색">
 					<input type="reset" value="초기화"></td>
 			</tr>
 		</table>
 	</form>
 	<form>
 		<h3>검색 결과</h3>
-		<table>
+		<table  width = "1000" align="center">
 			<tr>
-				<th><input type="checkbox" id="cbx_chkAll" value="전체 선택"></th>
+				<th>전체선택&emsp;<input type="checkbox" id="cbx_chkAll" value="전체 선택"></th>
 				<th>상품 주문번호</th>
 				<th>회원명</th>
 				<th>회원코드</th>
@@ -80,6 +80,7 @@
 				<th>배송지</th>
 				<th>구매일</th>
 				<th>주문상태</th>
+				<th>배송상태</th>
 				<th>택배사</th>
 				<th>송장번호</th>
 				<th>택배비부담</th>

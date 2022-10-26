@@ -3,6 +3,7 @@ package com.teampj.shop.board;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONObject;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.teampj.shop.TotalDTO;
 import com.teampj.shop.list.ListDTO;
 import com.teampj.shop.list.ListService;
+import com.teampj.shop.user.UserDTO;
 
 @Controller
 @RequestMapping(value = "/board/**")
@@ -39,10 +40,10 @@ public class BoardController {
 		mav.setViewName("boardmain");
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView mainhome(Model model) {
-		mav.setView(new RedirectView("/shop"));	//다른 컨트롤러로 viewname
+		mav.setView(new RedirectView("/shop")); // 다른 컨트롤러로 viewname
 		return mav;
 	}
 
@@ -51,12 +52,17 @@ public class BoardController {
 	public ModelAndView reviewout(Model model, HttpServletRequest request) {
 		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
-
+		ListService ler = sqlSession.getMapper(ListService.class);
+		
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
+		
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
-		System.out.println("紐뉖쾲由щ럭?" + bnum);
-		TotalDTO dto = ser.usereareview("user001", bnum);
+		BoardDTO dto = ser.usereareview(userid, bnum);
+		ListDTO lto = ler.usereareview(userid, bnum);
 
 		mav.addObject("dto", dto);
+		mav.addObject("lto", lto);
 		mav.setViewName("userreviewout");
 		return mav;
 	}
@@ -78,14 +84,17 @@ public class BoardController {
 		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
 		String ocode = request.getParameter("ocode");
 		String bname = request.getParameter("bname");
 		String bcont = request.getParameter("bcont");
 
-		int k = ser.userreviewsave(ocode, bname, bcont);
+		int k = ser.userreviewsave(ocode, bname, bcont, userid);
 		System.out.println(k + "由щ럭���옣�릱�땲?");
 
-		mav.setViewName("redirect:main");
+		mav.addObject("btype", 2);
+		mav.setViewName("redirect:reviewlist");
 		return mav;
 	}
 
@@ -95,8 +104,11 @@ public class BoardController {
 		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
 		int btype = Integer.parseInt(request.getParameter("btype"));
-		ArrayList<TotalDTO> list = ser.userreviewlist("user001", btype);
+		ArrayList<BoardDTO> list = ser.userreviewlist(userid, btype);
+		System.out.println(btype);
 
 		mav.addObject("list", list);
 		mav.setViewName("userreviewlist");
@@ -110,11 +122,14 @@ public class BoardController {
 
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
 
-		int k = ser.userboarddel("user001", bnum);
+		int k = ser.userboarddel(userid, bnum);
 		System.out.println("由щ럭�궘�젣�릱�땲? " + k);
 
-		mav.setViewName("redirect:main");
+		mav.addObject("btype", 2);
+		mav.setViewName("redirect:reviewlist");
 
 		return mav;
 	}
@@ -124,11 +139,16 @@ public class BoardController {
 	public ModelAndView reviewupdateget(Model model, HttpServletRequest request) {
 		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
+		ListService ler = sqlSession.getMapper(ListService.class);
 
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
-		TotalDTO dto = ser.usereareview("user001", bnum);
+		BoardDTO dto = ser.usereareview(userid, bnum);
+		ListDTO lto = ler.usereareview(userid, bnum);
 
 		mav.addObject("dto", dto);
+		mav.addObject("lto", lto);
 		mav.setViewName("userreviewupdate");
 		return mav;
 	}
@@ -142,11 +162,14 @@ public class BoardController {
 		String bnum = request.getParameter("bnum");
 		String bname = request.getParameter("bname");
 		String bcont = request.getParameter("bcont");
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
 
-		int k = ser.userreviewupdateset("user001", bnum, bname, bcont);
+		int k = ser.userreviewupdateset(userid, bnum, bname, bcont);
 		System.out.println(k + "由щ럭�닔�젙�릱�땲?");
 
-		mav.setViewName("redirect:main");
+		mav.addObject("btype", 2);
+		mav.setViewName("redirect:reviewlist");
 		return mav;
 	}
 
@@ -156,10 +179,11 @@ public class BoardController {
 		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 
 		ListService ser = sqlSession.getMapper(ListService.class);
+		int btype = Integer.parseInt(request.getParameter("btype"));
 		String ocode = request.getParameter("ocode");
-		System.out.println("usertoseller ocode �옒 �룄李⑺뻽�땲? " + ocode);
 		ListDTO dto = ser.usertoseller(ocode);
 
+		mav.addObject("btype", btype);
 		mav.addObject("dto", dto);
 		mav.setViewName("usertoseller");
 
@@ -177,11 +201,14 @@ public class BoardController {
 		String bcont = request.getParameter("bcont");
 		String pcode = request.getParameter("pcode");
 		System.out.println("臾몄쓽 �벑濡� 以�! " + bname + pcode);
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
 
-		int k = ser.usertosellersave("user001", bname, bcont, pcode);
+		int k = ser.usertosellersave(userid, bname, bcont, pcode);
 		System.out.println("臾몄쓽 �벑濡� �릱�땲? " + k);
 
-		mav.setViewName("redirect:main");
+		mav.addObject("btype", 1);
+		mav.setViewName("redirect:usertosellerlist");
 
 		return mav;
 	}
@@ -191,11 +218,17 @@ public class BoardController {
 	public ModelAndView usertosellerlist(Model model, HttpServletRequest request) {
 		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
 		int btype = Integer.parseInt(request.getParameter("btype"));
 		BoardService ser = sqlSession.getMapper(BoardService.class);
-		ArrayList<TotalDTO> list = ser.usertolist("user001", btype);
+		ListService ler = sqlSession.getMapper(ListService.class);
+		ArrayList<BoardDTO> list = ser.usertolist(userid, btype);
+		ArrayList<ListDTO> list2 = ler.usertolist(userid, btype);
+		System.out.println(btype);
 
 		mav.addObject("list", list);
+		mav.addObject("list2", list2);
 		mav.setViewName("usertosellerlist");
 
 		return mav;
@@ -206,13 +239,15 @@ public class BoardController {
 	public ModelAndView usertosellerout(Model model, HttpServletRequest request) {
 		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
+		ListService ler = sqlSession.getMapper(ListService.class);
 
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
-		System.out.println("臾몄쓽 �궡�슜 �씫�쑝�윭 �솕�뒗�뜲, " + bnum);
 
-		ArrayList<TotalDTO> list = ser.usertosellerout(bnum);
+		ArrayList<BoardDTO> list = ser.usertosellerout(bnum);
+		ArrayList<ListDTO> list2 = ler.usertosellerout(bnum);
 
 		mav.addObject("list", list);
+		mav.addObject("list2", list2);
 		mav.setViewName("usertosellerout");
 
 		return mav;
@@ -226,11 +261,14 @@ public class BoardController {
 
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
 		System.out.println("臾몄쓽 �궡�슜 �궘�젣�븯�윭, " + bnum);
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
 
-		int k = ser.userboarddel("user001", bnum);
+		int k = ser.userboarddel(userid, bnum);
 		System.out.println("臾몄쓽 �궘�젣 �릱�땲? " + k);
 
-		mav.setViewName("redirect:main");
+		mav.addObject("btype", 1);
+		mav.setViewName("redirect:usertosellerlist");
 
 		return mav;
 	}
@@ -255,11 +293,14 @@ public class BoardController {
 		String bname = request.getParameter("bname");
 		String bcont = request.getParameter("bcont");
 		System.out.println("문의 등록 중! " + bname);
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
 
-		int k = ser.usertositesave("user001", bname, bcont);
+		int k = ser.usertositesave(userid, bname, bcont);
 		System.out.println("사이트 문의 등록 됐니? " + k);
 
-		mav.setViewName("redirect:main");
+		mav.addObject("btype", 3);
+		mav.setViewName("redirect:usertositelist");
 
 		return mav;
 	}
@@ -271,8 +312,12 @@ public class BoardController {
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		int btype = Integer.parseInt(request.getParameter("btype"));
-		ArrayList<TotalDTO> list = ser.usertolist("user001", btype);
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
+		System.out.println(btype+"사이트리스트 잘 가지고 왔니?");
+		ArrayList<BoardDTO> list = ser.usertolist(userid, btype);
 
+		System.out.println(btype);
 		mav.addObject("list", list);
 		mav.setViewName("usertositelist");
 
@@ -288,10 +333,30 @@ public class BoardController {
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
 		System.out.println("臾몄쓽 �궡�슜 �씫�쑝�윭 �솕�뒗�뜲, " + bnum);
 
-		ArrayList<TotalDTO> list = ser.usertosellerout(bnum);
+		ArrayList<BoardDTO> list = ser.usertosellerout(bnum);
 
 		mav.addObject("list", list);
 		mav.setViewName("usertositeout");
+
+		return mav;
+	}
+
+	// �궡媛� �벖 臾몄쓽 �궘�젣
+	@RequestMapping(value = "/usertositedel", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	public ModelAndView usertositedel(Model model, HttpServletRequest request) {
+		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
+		BoardService ser = sqlSession.getMapper(BoardService.class);
+
+		int bnum = Integer.parseInt(request.getParameter("bnum"));
+		System.out.println("臾몄쓽 �궡�슜 �궘�젣�븯�윭, " + bnum);
+		HttpSession hs = request.getSession();
+		String userid = (String) hs.getAttribute("member");
+
+		int k = ser.userboarddel(userid, bnum);
+		System.out.println("臾몄쓽 �궘�젣 �릱�땲? " + k);
+
+		mav.addObject("btype", 3);
+		mav.setViewName("redirect:usertositelist");
 
 		return mav;
 	}

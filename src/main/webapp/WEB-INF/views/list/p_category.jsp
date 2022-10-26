@@ -6,9 +6,9 @@
 <html>
 <head>
 <style type="text/css">
-a {
-  color: inherit;
-  text-decoration: none;
+a:hover, a:visited, a:focus {
+  text-decoration: none !important;
+  
 }
 </style>
 <meta charset="UTF-8">

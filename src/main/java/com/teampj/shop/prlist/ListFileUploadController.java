@@ -36,7 +36,7 @@ public class ListFileUploadController  {
 	  throws Exception{
 		multipartRequest.setCharacterEncoding("utf-8");
 		Map map = new HashMap();
-		//���ε�� ���ϵ��� ����� �����ϴ� ������ ��ü�� �����Ѵ�
+		//���ε�� ���ϵ��� ����� ���     ��ϴ� ������ ��ü�� �����Ѵ�
 		
 		List fileList= fileProcess(multipartRequest);
 		map.put("fileList", fileList);		

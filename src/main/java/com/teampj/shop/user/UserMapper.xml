@@ -23,5 +23,46 @@
 		<result property="useyn" column="useyn"/>
 	</resultMap>
 <!-- ucode insert 할 때, 칼럼값을 'U'||LPAD(SEQ_userDB.NEXTVAL,5,0) -->
+<insert id="userin">
+insert into userdb(ucode,userid,userpw,uname,uaddress1,uaddress2,uaddress3,uemail,umobile,uzipcode1,uzipcode2,uzipcode3)
+values(('U'||LPAD(SEQ_userdb.NEXTVAL,5,0)),#{param1},#{param2},#{param3},#{param4},'-','-',#{param5},#{param6},#{param7},0,0)
+</insert>
+<select id="idCheck" parameterType="String">
+select count(*) from userdb where userid =#{parma1} 
+</select>
+<select id="loginCheck" parameterType="String" resultType="int">
+select count(*) from userdb where userid=#{param1} and userpw=#{param2}
+</select>
+<select id="logincode" parameterType="String" resultType="String">
+select ucode from userdb where userid=#{parma1}
+</select>
+<!-- 회원정보 수정 -->
+<update id="UserUpdate">
+update userdb set
+userpw = #{param2},
+uname = #{param3},
+uaddress1 = #{param4},
+uaddress2 = #{param5},
+uaddress3 = #{param6},
+uemail = #{param7},
+umobile = #{param8},
+uzipcode1 =#{param9},
+uzipcode2 =#{param10},
+uzipcode3 =#{param11}
+where userid = #{param1}
+</update>
+<delete id="delete">
+delete from userdb where userid=#{param1} and userpw=#{param2}
+</delete>
+<!-- 창용 -->
+<select id="lookup" resultMap="dto">
+  select *
+  from userdb
+</select>
 
+<select id="login" resultType="String">
+  select userid
+  from userdb
+  where userid = #{param1} and userpw = #{param2}
+</select>
 </mapper>

@@ -22,12 +22,13 @@
 		<result property="ocharge" column="ocharge" />
 		<result property="ozipcode" column="ozipcode" />
 		<result property="ostate" column="ostate" />
+		<result property="oshipstate" column="oshipstate"/>
 	</resultMap>
 	<!-- 주문조회 -->
 	<select id="orderview" parameterType="String" resultMap="dto">
 		select
 		u.uname, u.ucode, u.umobile, p.pname, o.ocode ,o.ocount, o.ocharge,
-		o.ozipcode, o.oaddress, o.odate, o.ostate, o.oshipcomp, o.oshipcode
+		o.ozipcode, o.oaddress, o.odate, o.ostate, o.oshipcomp, o.oshipcode, o.oshipstate 
 		from orderdb o left outer join userdb u on (o.ucode = u.ucode)
 		left
 		outer join listdb p on (o.pcode = p.pcode)
@@ -38,7 +39,7 @@
 	<!-- 송장번호 저장 -->
 	<update id="oshipUpdate" parameterType="String">
 		update orderdb set
-		oshipcomp=#{param3},oshipcode=#{param4} where
+		oshipcomp=#{param3},oshipcode=#{param4},oshipstate=#{param5} where
 		scode=#{param1} and
 		ocode=#{param2}
 	</update>
@@ -46,7 +47,7 @@
 	<select id="refundview" parameterType="String" resultMap="dto">
 		select
 		u.uname, u.ucode, u.umobile, p.pname, o.ocode ,o.ocount, o.ocharge,
-		o.ozipcode, o.oaddress, o.odate, o.ostate, o.oshipcomp, o.oshipcode
+		o.ozipcode, o.oaddress, o.odate, o.ostate, o.oshipcomp, o.oshipcode, o.oshipstate 
 		from orderdb o left outer join userdb u on (o.ucode = u.ucode)
 		left
 		outer join listdb p on (o.pcode = p.pcode)
@@ -55,14 +56,17 @@
 		to_date(#{param6}, 'YY/MM/DD') + 1)
 	</select>
 	<!-- 반품정보 저장 -->
-	<update id="refundsave" parameterType="String">
-	update orderdb set oshipcomp=#{param3}, oshipcode=#{param4}, oshipstate=#{param5},
-    ocharge = (case
-        when #{param6} is 'ocharge+' then (#{param6} #{param7)
-        when #{param6} is 'ocharge' then (#{param6} #{param7})
-        end)
+	<!-- 판매자 부담 -->
+	<update id="refundsaveseller">
+	update orderdb set oshipcomp=#{param3}, oshipcode=#{param4}, ostate=#{param5}, , oshipstate=#{param7}, 
+    ocharge = (ocharge - #{param6})
     where scode=#{param1} and ocode=#{param2}
-	
-
+	</update>
+	<!-- 반품정보 저장 -->
+	<!-- 유저 부담 -->
+	<update id="refundsaveuser">
+	update orderdb set oshipcomp=#{param3}, oshipcode=#{param4}, ostate=#{param5}, oshipstate=#{param7}, 
+    ocharge = (ocharge + #{param6})
+    where scode=#{param1} and ocode=#{param2}
 	</update>
 </mapper>
