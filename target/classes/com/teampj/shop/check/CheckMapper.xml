@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.teampj.shop.check.CheckService">
+
+	<resultMap type="com.teampj.shop.check.CheckDTO" id="dto">
+		<result property="ucode" column="ucode"/>
+		<result property="pcode" column="pcode"/>
+		<result property="indate" column="indate"/>
+		<result property="scode" column="scode"/>
+		<result property="bcount" column="bcount"/>
+		<result property="bcode" column="bcode"/>
+		<result property="ccode" column="ccode"/>
+	</resultMap>
+	
+<select id="usercheck" resultMap="dto">
+	select l.pcode, l.pthumbnail, l.pname, l.price, c.bcount, c.ccode from listdb l left outer join checkdb c on (l.pcode = c.pcode) where ucode = (select ucode from userdb where userid = #{param1}) and bcode = #{param2}
+</select>
+	
+<delete id="checkdel">
+	delete from checkdb where ccode = #{param1} and ucode = (select ucode from userdb where userid = #{param2})
+</delete>
+
+<insert id="gotocheck">
+	insert into checkdb values ((select ucode from userdb where userid = #{param1}), #{param2}, sysdate, (select pcode from listdb where pcode = #{param2}), 1, #{param3}, SEQ_checkDB.NEXTVAL)
+</insert>
+
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.teampj.shop.profit.ProfitService">
+
+	<resultMap type="com.teampj.shop.profit.ProfitDTO" id="dto">
+		<result property="ocode" column="ocode"/>
+		<result property="scode" column="scode"/>
+		<result property="pcode" column="pcode"/>
+		<result property="pname" column="pname"/>
+		<result property="oprofit" column="oprofit"/>
+		<result property="ocount" column="ocount"/>
+		<result property="odate" column="odate"/>
+	</resultMap>
+
+</mapper>

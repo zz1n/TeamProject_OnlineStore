@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.teampj.shop.seller.SellerService">
+
+	<resultMap type="com.teampj.shop.seller.SellerDTO" id="dto">
+		<result property="scode" column="scode"/>
+		<result property="sellerid" column="sellerid"/>
+		<result property="sellerpw" column="sellerpw"/>
+		<result property="scomname" column="scomname"/>
+		<result property="sprename" column="sprename"/>
+		<result property="sbusnum" column="sbusnum"/>
+		<result property="scomsalenum" column="scomsalenum"/>
+		<result property="scomaddress" column="scomaddress"/>
+		<result property="semail" column="semail"/>
+		<result property="smobile" column="smobile"/>
+		<result property="srgtdate" column="srgtdate"/>
+		<result property="selleryn" column="selleryn"/>
+	</resultMap>
+<!-- scode insert 할 때, 칼럼값을 'S'||LPAD(SEQ_sellerDB.NEXTVAL,5,0) -->
+
+</mapper>

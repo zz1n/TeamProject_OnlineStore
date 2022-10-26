@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.teampj.shop.seller.SellerService">
+
+	<resultMap type="com.teampj.shop.seller.SellerDTO" id="dto">
+		<result property="scode" column="scode"/>
+		<result property="sellerid" column="sellerid"/>
+		<result property="sellerpw" column="sellerpw"/>
+		<result property="scomname" column="scomname"/>
+		<result property="sprename" column="sprename"/>
+		<result property="sbusnum" column="sbusnum"/>
+		<result property="scomsalenum" column="scomsalenum"/>
+		<result property="scomaddress" column="scomaddress"/>
+		<result property="semail" column="semail"/>
+		<result property="smobile" column="smobile"/>
+		<result property="srgtdate" column="srgtdate"/>
+		<result property="selleryn" column="selleryn"/>
+	</resultMap>
+<!-- scode insert 할 때, 칼럼값을 'S'||LPAD(SEQ_sellerDB.NEXTVAL,5,0) -->
+
+<!-- 철민 -->
+	<!-- 로그인 아이디,비밀번호 체크 -->
+	<select id="loginCheck" parameterType="String" resultType="int">
+	 select count(*) from sellerdb where sellerid=#{param1} and sellerpw=#{param2}
+	</select>
+	<!-- 로그인 성공 scode 발급 -->
+	<select id="logincode" parameterType="String" resultType="String">
+	select scode from sellerdb where sellerid=#{param1}
+	</select>
+	<!-- 아이디 찾기 -->
+
+	<!-- 비밀번호 찾기 -->
+	<!-- 회원정보 수정 불러오기 -->
+	<select id="sellerup" parameterType="String" resultMap="dto">
+	select * from sellerdb where scode = #{param1}
+	</select>
+	<!-- 회원정보 수정 저장하기 -->
+	<update id="sellerupsave">
+	update sellerdb set sellerpw=#{param3},scomname=#{param4},sprename=#{param5} ,sbusnum=#{param6} ,scomsalenum=#{param7} , scomaddress=#{param8} ,semail=#{param9} ,smobile=#{param10} where scode=#{param1} and sellerid=#{param2}
+	</update>
+    <!-- 창용 -->
+    <select id="login" resultType="String">
+    select scode
+    from sellerdb
+    where sellerid=#{param1} and sellerpw=#{param2}
+    </select>
+</mapper>

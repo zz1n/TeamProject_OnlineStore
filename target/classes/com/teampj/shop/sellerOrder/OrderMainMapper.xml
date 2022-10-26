@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.teampj.shop.sellerOrder.OrderMainService">
+    
+    <resultMap type="com.teampj.shop.sellerOrder.OrderMainDTO" id="mdto">
+    <result property="daycost" column="daycost"/>
+    <result property="monthcost" column="monthcost"/>
+    <result property="dayrefund" column="dayrefund"/>
+    <result property="monthrefund" column="monthrefund"/>
+    <result property="checklist" column="checklist"/>
+    <result property="shipstate1" column="shipstate1"/>
+    <result property="shipstate2" column="shipstate2"/>
+    <result property="ostate2" column="ostate2"/>
+    <result property="ostate3" column="ostate3"/>
+    <result property="ostate4" column="ostate4"/>
+    </resultMap>
+    
+    <!-- 판매자 메인 페이지 데이터 출력 -->
+    <select id="mainOut" parameterType="String" resultMap="mdto">
+    select 
+    <!-- 일 주문 금액 -->
+     nvl((select sum(ocharge) from orderdb where to_date(odate, 'YY/MM/DD') = to_date(sysdate, 'YY/MM/DD') and scode=#{param1}), 0) as daycost, 
+     <!-- 월 주문 금액 -->
+      nvl((select sum(ocharge) from orderdb where odate between add_months(sysdate, -1) and sysdate and scode=#{param1}), 0) as monthcost, 
+     <!-- 일일 환불 금액 -->
+      nvl((select sum(ocharge) from orderdb where ostate = 6 and to_date(odate, 'YY/MM/DD') = to_date(sysdate, 'YY/MM/DD') and scode=#{param1}), 0) as dayrefund, 
+    <!-- 월 환불 금액 -->
+     nvl((select sum(ocharge) from orderdb where ostate = 6 and to_date(odate, 'YY/MM/DD') between add_months(sysdate, -1) and sysdate and scode=#{param1}), 0) as monthrefund, 
+    <!-- 장바구니 -->
+     nvl((select count(bcount) from checkdb where scode = #{param1}), 0) as checklist, 
+     <!-- 배송전 -->
+     nvl((select count(oshipstate) from orderdb where oshipstate = 1 and scode=#{param1}), 0) as shipstate1,    
+     <!-- 배송중 -->
+       nvl((select count(oshipstate) from orderdb where oshipstate = 2 and scode=#{param1}), 0) as shipstate2, 
+    <!-- 취소신청 -->
+     nvl((select count(ostate) from orderdb where ostate = 4 and scode=#{param1}), 0) as ostate4, 
+    <!-- 교환신청 -->
+     nvl((select count(ostate) from orderdb where ostate = 2 and scode=#{param1}), 0) as ostate2,    
+    <!-- 반품신청 -->
+      nvl((select count(ostate) from orderdb where ostate = 3 and scode=#{param1}), 0) as ostate3 
+from dual
+    </select>
+ </mapper>

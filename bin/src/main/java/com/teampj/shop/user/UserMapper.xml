@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.teampj.shop.user.UserService">
+
+	<resultMap type="com.teampj.shop.user.UserDTO" id="dto">
+		<result property="ucode" column="ucode"/>
+		<result property="userid" column="userid"/>
+		<result property="userpw" column="userpw"/>
+		<result property="uname" column="uname"/>
+		<result property="umobile" column="umobile"/>
+		<result property="uaddress1" column="uaddress1"/>
+		<result property="uaddress2" column="uaddress2"/>
+		<result property="uaddress3" column="uaddress3"/>
+		<result property="uzipcode" column="uzipcode"/>
+		<result property="uemail" column="uemail"/>
+		<result property="upoint" column="upoint"/>
+		<result property="urgtdate" column="urgtdate"/>
+		<result property="useyn" column="useyn"/>
+	</resultMap>
+<!-- ucode insert 할 때, 칼럼값을 'U'||LPAD(SEQ_userDB.NEXTVAL,5,0) -->
+
+</mapper>

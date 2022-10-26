@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.teampj.shop.board.BoardService">
+
+	<resultMap type="com.teampj.shop.board.BoardDTO" id="dto">
+		<result property="bnum" column="bnum"/>
+		<result property="bcode" column="bcode"/>
+		<result property="bname" column="bname"/>
+		<result property="bcont" column="bcont"/>
+		<result property="pcode" column="pcode"/>
+		<result property="bdate" column="bdate"/>
+		<result property="btype" column="btype"/>
+		<result property="reproot" column="reproot"/>
+		<result property="repstep" column="repstep"/>
+		<result property="repindent" column="repindent"/>
+	</resultMap>
+
+	<!-- 효진 -->
+<select id="usereareview" resultMap="dto">
+select b.bnum, l.pname, b.bdate, b.bname, b.bcont from boarddb b left outer join listdb l on (b.pcode = l.pcode) where b.bnum = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
+</select>
+
+<insert id="userreviewsave">
+insert into boarddb values (SEQ_boardDB.NEXTVAL, (select ucode from userdb where userid = #{param4}), #{param2}, #{param3}, (select pcode from orderdb where ocode = #{param1}), sysdate, 2, SEQ_boardDB.CURRVAL, 0, 0)
+</insert>
+
+<select id="userreviewlist" resultMap="dto">
+select b.bnum, b.bname, l.pname as pcode, b.bdate from boarddb b left outer join listdb l on (b.pcode = l.pcode) where  b.bcode = (select ucode from userdb where userid = #{param1}) and b.btype = #{param2}
+</select>
+
+<delete id="userboarddel">
+delete from boarddb where bnum = #{param2} and bcode = (select ucode from userdb where userid=#{param1})
+</delete>
+
+<select id="userreviewupdateget" resultMap="dto">
+select b.bnum, l.pname as pcode, b.bdate, b.bname, b.bcont from boarddb b left outer join listdb l on (b.pcode = l.pcode) where b.bnum = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
+</select>
+
+<update id="userreviewupdateset">
+update boarddb set bname = #{param3}, bcont = #{param4} where bnum = #{param2} and bcode = (select ucode from userdb where userid = #{param1})
+</update>
+
+<insert id="usertosellersave">
+insert into boarddb values (SEQ_boardDB.NEXTVAL, (select ucode from userdb where userid = #{param1}), #{param2}, #{param3}, #{param4}, sysdate, 1, SEQ_boardDB.CURRVAL, 0, 0)
+</insert>
+
+<select id="usertolist" resultMap="dto">
+select b.bnum, b.bname, b.bdate, p.pname from boarddb b, listdb p where b.pcode = p.pcode(+) and b.btype = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
+</select>
+
+<select id="usertosellerout" resultMap="dto">
+select b.bnum, b.bname, b.bcont, p.pname, b.bdate from boarddb b, listdb p where b.pcode = p.pcode(+) and reproot = #{param1} order by bnum
+</select>
+
+<insert id="usertositesave">
+insert into boarddb values (SEQ_boardDB.NEXTVAL, (select ucode from userdb where userid = #{param1}), #{param2}, #{param3}, '-', sysdate, 3, SEQ_boardDB.CURRVAL, 0, 0)
+</insert>
+
+<!-- 창용 -->
+<select id="review" resultMap="dto">
+    select *
+    from boarddb
+    where pcode = #{param1} and btype = '2'
+  </select>
+  
+  <select id="inquiry" resultMap="dto">
+    select *
+    from boarddb
+    where pcode = #{param1} and btype = '1'
+  </select>
+  
+  <select id="cntnotice" resultType="int">
+    select count(*)
+    from boarddb
+  </select>
+  
+  <select id="selectnotice" resultMap="dto">
+    select *
+    from (select rownum rm, A.* from(select * from boarddb order by reproot desc, repstep asc)A)
+    where rm between #{start} and #{end}
+  </select> 
+  
+  
+<!-- 민섭 -->
+<select id="preply" resultMap="dto">
+select * from boarddb where pcode = any (select pcode from listdb where scode = #{param1})
+
+
+</select>
+<insert id="answercomplete">
+insert into boarddb values(SEQ_boardDB.NEXTVAL,#{param5},#{param3},#{param4},#{param2},sysdate,1,#{param1},1,1)
+
+
+</insert>
+</mapper>

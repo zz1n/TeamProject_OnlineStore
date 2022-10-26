@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.teampj.shop.list.ListService">
+
+	<resultMap type="com.teampj.shop.list.ListDTO" id="dto">
+		<result property="pcode" column="pcode"/>
+		<result property="scode" column="scode"/>
+		<result property="pname" column="pname"/>
+		<result property="price" column="price"/>
+		<result property="cost" column="cost"/>
+		<result property="pcount" column="pcount"/>
+		<result property="pshipday" column="pshipday"/>
+		<result property="pshipcost" column="pshipcost"/>
+		<result property="preshipcost" column="preshipcost"/>
+		<result property="pspshipcost" column="pspshipcost"/>
+		<result property="pthumbnail" column="pthumbnail"/>
+		<result property="pdscrpt" column="pdscrpt"/>
+		<result property="pmaincate" column="pmaincate"/>
+		<result property="psubcate" column="psubcate"/>
+		<result property="ptag" column="ptag"/>
+		<result property="prgtdate" column="prgtdate"/>
+	</resultMap>
+<!-- pcode insert 할 때, 칼럼값을 'P'||LPAD(SEQ_productDB.NEXTVAL,5,0) -->
+
+<!-- 효진 -->
+<select id="usercheck" resultMap="dto">
+	select l.pcode, l.pthumbnail, l.pname, l.price, c.bcount, c.ccode from listdb l left outer join checkdb c on (l.pcode = c.pcode) where ucode = (select ucode from userdb where userid = #{param1}) and bcode = #{param2}
+</select>
+
+<select id="usertoseller" resultMap="dto">
+	select pcode, pname, pthumbnail from listdb where pcode = (select pcode from orderdb where ocode = #{param1})
+</select>
+
+<select id="usereareview" resultMap="dto">
+select b.bnum, l.pname, b.bdate, b.bname, b.bcont from boarddb b left outer join listdb l on (b.pcode = l.pcode) where b.bnum = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
+</select>
+
+<select id="usertolist" resultMap="dto">
+select b.bnum, b.bname, b.bdate, p.pname from boarddb b, listdb p where b.pcode = p.pcode(+) and b.btype = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
+</select>
+
+<select id="usertosellerout" resultMap="dto">
+select b.bnum, b.bname, b.bcont, p.pname, b.bdate from boarddb b, listdb p where b.pcode = p.pcode(+) and reproot = #{param1} order by bnum
+</select>
+
+<select id="orderlist" resultMap="dto">
+select p.pthumbnail, o.ocode, p.pname, o.ocount, o.ocharge
+    from orderdb o left outer join listdb p on (o.pcode = p.pcode)
+                   left outer join userdb u on (o.ucode = u.ucode)
+    where (odate between add_months(sysdate, -(#{param2}+3)) and add_months(sysdate, -(#{param2})))
+        and u.userid = #{param1}
+</select>
+
+<select id="orderdetail" resultMap="dto">
+select p.pthumbnail, o.ocode, o.scode, o.pcode, p.pname, o.ocount, o.ocharge, o.ostate, o.oshipstate, o.oshipcode, o.ozipcode, o.oaddress, o.omemo, o.odate
+	from orderdb o left outer join listdb p on (o.pcode = p.pcode) where ocode = #{param2} and ucode = (select ucode from userdb where userid = #{param1})
+</select>
+
+<select id="userorderchangeget" resultMap="dto">
+select p.pthumbnail, o.ocode, p.pname, o.ozipcode, o.oaddress, o.omemo, o.odate
+	from orderdb o left outer join listdb p on (o.pcode = p.pcode) where ocode = #{param2} and ucode = (select ucode from userdb where userid = #{param1})
+</select>
+
+<update id="userorderchangeset">
+update orderdb set ozipcode = #{param2}, oaddress = #{param3}, omemo = #{param4} where ocode = #{param1}
+</update>
+
+<!-- 창용 -->
+<select id="mainout" resultMap="dto">
+    select *
+    from listdb
+  </select>
+
+  <select id="rankingout" resultMap="dto">
+    select *
+    from listdb
+  </select>
+  
+  <select id="monthout" resultMap="dto">
+    select *
+    from listdb
+  </select>
+  
+  <select id="search" resultMap="dto">
+    select *
+    from listdb
+    where pname like '%' || #{param1} || '%' or ptag like '%' || #{param1} || '%'
+  </select>
+  
+  <select id="detail" resultMap="dto">
+    select *
+    from listdb
+    where pcode = #{param1}
+  </select>
+  
+  <select id="listcate" resultMap="dto">
+    select *
+    from listdb
+    where upper(pmaincate) = upper(#{param1})
+  </select>
+
+  <select id="brandcate" resultMap="dto">
+    select *
+    from listdb
+    where upper(scode) = upper(#{param1})
+  </select>
+  
+  <select id="buy" resultMap="dto">
+    select *
+    from listdb
+    where pcode = #{param1}
+  </select>
+  
+  <insert id="buysave">
+    insert into orderdb(ocode, ucode, scode, pcode, ocount, oaddress, omethod, ocharge)
+    values('O'||LPAD(SEQ_orderDB.nextval,5,0), (select ucode from userdb where userid = #{param6}), #{param1}, #{param2}, #{param3}, '서울시', #{param4}, #{param5})
+  </insert>
+  
+  <select id="buycomplete" resultMap="dto">
+    select *
+    from listdb
+    where pcode = #{param1}
+  </select>
+
+</mapper>

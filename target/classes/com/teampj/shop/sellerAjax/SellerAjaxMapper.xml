@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.teampj.shop.sellerAjax.SellerAjaxService">
+
+	<resultMap type="com.teampj.shop.sellerAjax.SellerAjaxDTO" id="dto">
+		<result property="sellerid" column="sellerid"/>
+		<result property="sellerpw" column="sellerpw"/>
+	</resultMap>
+<!-- scode insert 할 때, 칼럼값을 'S'||LPAD(SEQ_sellerDB.NEXTVAL,5,0) -->
+
+<!-- 철민 -->
+	<!-- 판매자 회원가입 -->
+	<insert id="sellerin">
+		insert into sellerdb
+		values('S'||LPAD(SEQ_sellerDB.NEXTVAL,5,0),#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9},#{param10},default)
+	</insert>
+	<!-- 아이디 중복체크 -->
+	<select id="idCheck" parameterType="String" resultType="int" >
+		select
+		count(*) from sellerdb where sellerid =#{param1}
+	</select>
+	<!-- 아이디 찾기 -->
+
+	<!-- 비밀번호 찾기 -->
+
+</mapper>

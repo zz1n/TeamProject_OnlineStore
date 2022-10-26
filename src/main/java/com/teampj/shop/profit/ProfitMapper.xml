@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.teampj.shop.profit.ProfitService">
+
+	<resultMap type="com.teampj.shop.profit.ProfitDTO" id="dto">
+		<result property="odate" column="odate" />
+		<result property="totcost" column="totcost" />
+		<result property="refundcost" column="refundcost" />
+		<result property="ocount" column="ocount" />
+		<result property="cost" column="cost" />
+		<result property="pname" column="pname" />
+	</resultMap>
+
+	<!-- 철민 -->
+	<!-- 기간 별 매출조회 -->
+	<!-- 1일씩 출력 -->
+	<select id="dayprofitcall" parameterType="String"
+		resultMap="dto">
+		SELECT o.odate, 
+		sum(o1.ocharge) as totcost,
+		sum(o6.ocharge) as refudncost 
+		FROM orderdb o left outer join orderdb o1 on (o.ocode =
+		o1.ocode and 
+		o.ostate = 1) 
+		left outer join orderdb o6 on (o.ocode =
+		o6.ocode and o.ostate = 6) 
+		WHERE (o.scode=#{param1} and o.ostate = 1 or
+		o.ostate = 6) 
+		AND o.odate between to_date(#{param2}, 'YY/MM/DD') and
+		to_date(#{param3},
+		'YY/MM/DD') 
+		GROUP BY 
+		o.odate 
+		ORDER BY 
+		o.odate
+	</select>
+	<!-- 1달씩 출력 -->
+	<select id="monthprofitcall" parameterType="String"
+		resultMap="dto">
+		SELECT to_char(o.odate, 'YY/MM'),
+		sum(o1.ocharge) as totcost,
+		sum(o6.ocharge) as refundcost
+		FROM orderdb o left outer join orderdb o1
+		on (o.ocode =
+		o1.ocode and
+		o.ostate = 1)
+		left outer join orderdb o6 on
+		(o.ocode =
+		o6.ocode and o.ostate = 6)
+		WHERE (o.scode=#{param1} and
+		o.ostate = 1 or
+		o.ostate = 6)
+		AND o.odate between to_date(#{param2},
+		'YY/MM/DD') and
+		to_date(#{param3}, 'YY/MM/DD')
+		GROUP BY
+		to_char(o.odate,
+		'YY/MM')
+		ORDER BY
+		to_char(o.odate, 'YY/MM')
+	</select>
+	<!-- 상품 별 매출 조회 -->
+	<select id="pnameprofitcall" parameterType="String"
+		resultMap="dto">
+		SELECT o.odate,
+		sum(o1.ocharge) as totcost,
+		sum(o6.ocharge) as refudncost
+		FROM orderdb o left outer
+		join orderdb o1
+		on (o.ocode = o1.ocode and
+		o.ostate = 1)
+		left outer join
+		orderdb o6 on
+		(o.ocode = o6.ocode and o.ostate = 6)
+		WHERE
+		(o.scode=#{param1} and
+		o.pcode=#{param2} and
+		o.ostate = 1 or o.ostate =
+		6)
+		AND o.odate between to_date(#{param3},
+		'YY/MM/DD') and
+		to_date(#{param4},
+		'YY/MM/DD')
+		GROUP BY
+		o.odate
+		ORDER BY
+		o.odate
+	</select>
+</mapper>

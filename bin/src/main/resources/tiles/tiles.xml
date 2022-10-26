@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/views/layout/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="navi" value="/WEB-INF/views/layout/navi.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
+	
+<!-- HOME -->
+	<definition name="home" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/layout/home.jsp" />
+	</definition>
+	
+<!-- BOARD -->
+	<definition name="boardmain" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/board/main.jsp" />
+	</definition>
+	
+<!-- CHECK -->
+	<definition name="checkmain" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/check/main.jsp" />
+	</definition>
+	
+<!-- LIST -->
+	<definition name="listmain" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/list/main.jsp" />
+	</definition>
+	
+<!-- ORDER -->
+	<definition name="ordermain" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/order/main.jsp" />
+	</definition>
+	
+<!-- PROFIT -->
+	<definition name="profitmain" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/profit/main.jsp" />
+	</definition>
+	
+<!-- SELLER -->
+	<definition name="sellermain" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/seller/main.jsp" />
+	</definition>
+	
+<!-- USER -->
+	<definition name="usermain" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/user/main.jsp" />
+	</definition>
+
+</tiles-definitions>

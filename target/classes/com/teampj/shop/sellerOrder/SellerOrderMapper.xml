@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.teampj.shop.sellerOrder.SellerOrderService">
+
+	<resultMap type="com.teampj.shop.sellerOrder.SellerOrderDTO"
+		id="dto">
+		<result property="scode" column="scode" />
+		<result property="ocode" column="ocode" />
+		<result property="uname" column="uname" />
+		<result property="ucode" column="ucode" />
+		<result property="umobile" column="umobile" />
+		<result property="pname" column="pname" />
+		<result property="oaddress" column="oaddress" />
+		<result property="odate" column="odate" />
+		<result property="oshipcomp" column="oshipcomp" />
+		<result property="oshipcode" column="oshipcode" />
+		<result property="ocount" column="ocount" />
+		<result property="ocharge" column="ocharge" />
+		<result property="ozipcode" column="ozipcode" />
+		<result property="ostate" column="ostate" />
+		<result property="oshipstate" column="oshipstate"/>
+	</resultMap>
+	<!-- 주문조회 -->
+	<select id="orderview" parameterType="String" resultMap="dto">
+		select
+		u.uname, u.ucode, u.umobile, p.pname, o.ocode ,o.ocount, o.ocharge,
+		o.ozipcode, o.oaddress, o.odate, o.ostate, o.oshipcomp, o.oshipcode, o.oshipstate 
+		from orderdb o left outer join userdb u on (o.ucode = u.ucode)
+		left
+		outer join listdb p on (o.pcode = p.pcode)
+		where o.scode = #{param1}
+		and (#{param2} = #{param3} or odate between #{param4} and
+		to_date(#{param5}, 'YY/MM/DD') + 1)
+	</select>
+	<!-- 송장번호 저장 -->
+	<update id="oshipUpdate" parameterType="String">
+		update orderdb set
+		oshipcomp=#{param3},oshipcode=#{param4},oshipstate=#{param5} where
+		scode=#{param1} and
+		ocode=#{param2}
+	</update>
+	<!-- 환불내역 조회 -->
+	<select id="refundview" parameterType="String" resultMap="dto">
+		select
+		u.uname, u.ucode, u.umobile, p.pname, o.ocode ,o.ocount, o.ocharge,
+		o.ozipcode, o.oaddress, o.odate, o.ostate, o.oshipcomp, o.oshipcode, o.oshipstate 
+		from orderdb o left outer join userdb u on (o.ucode = u.ucode)
+		left
+		outer join listdb p on (o.pcode = p.pcode)
+		where o.scode = #{param1}
+		and (#{param2} = #{param3} or o.ostate = #{param4} or odate between #{param5} and
+		to_date(#{param6}, 'YY/MM/DD') + 1)
+	</select>
+	<!-- 반품정보 저장 -->
+	<!-- 판매자 부담 -->
+	<update id="refundsaveseller">
+	update orderdb set oshipcomp=#{param3}, oshipcode=#{param4}, ostate=#{param5}, , oshipstate=#{param7}, 
+    ocharge = (ocharge - #{param6})
+    where scode=#{param1} and ocode=#{param2}
+	</update>
+	<!-- 반품정보 저장 -->
+	<!-- 유저 부담 -->
+	<update id="refundsaveuser">
+	update orderdb set oshipcomp=#{param3}, oshipcode=#{param4}, ostate=#{param5}, oshipstate=#{param7}, 
+    ocharge = (ocharge + #{param6})
+    where scode=#{param1} and ocode=#{param2}
+	</update>
+</mapper>
