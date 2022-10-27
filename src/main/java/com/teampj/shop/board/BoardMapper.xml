@@ -19,42 +19,52 @@
 	</resultMap>
 
 	<!-- 효진 -->
+<!-- 작성리뷰 상세출력 -->
 <select id="usereareview" resultMap="dto">
 select b.bnum, l.pname, b.bdate, b.bname, b.bcont from boarddb b left outer join listdb l on (b.pcode = l.pcode) where b.bnum = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
 </select>
 
+<!-- 작성리뷰 저장 -->
 <insert id="userreviewsave">
 insert into boarddb values (SEQ_boardDB.NEXTVAL, (select ucode from userdb where userid = #{param4}), #{param2}, #{param3}, (select pcode from orderdb where ocode = #{param1}), sysdate, 2, SEQ_boardDB.CURRVAL, 0, 0)
 </insert>
 
+<!-- 작성글 목록 -->
 <select id="userreviewlist" resultMap="dto">
 select b.bnum, b.bname, l.pname as pcode, b.bdate from boarddb b left outer join listdb l on (b.pcode = l.pcode) where  b.bcode = (select ucode from userdb where userid = #{param1}) and b.btype = #{param2}
 </select>
 
+<!-- 작성글 삭제 -->
 <delete id="userboarddel">
 delete from boarddb where bnum = #{param2} and bcode = (select ucode from userdb where userid=#{param1})
 </delete>
 
+<!-- 리뷰 수정 출력 -->
 <select id="userreviewupdateget" resultMap="dto">
 select b.bnum, l.pname as pcode, b.bdate, b.bname, b.bcont from boarddb b left outer join listdb l on (b.pcode = l.pcode) where b.bnum = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
 </select>
 
+<!-- 리뷰 수정 저장 -->
 <update id="userreviewupdateset">
 update boarddb set bname = #{param3}, bcont = #{param4} where bnum = #{param2} and bcode = (select ucode from userdb where userid = #{param1})
 </update>
 
+<!-- 판매자문의 저장 -->
 <insert id="usertosellersave">
 insert into boarddb values (SEQ_boardDB.NEXTVAL, (select ucode from userdb where userid = #{param1}), #{param2}, #{param3}, #{param4}, sysdate, 1, SEQ_boardDB.CURRVAL, 0, 0)
 </insert>
 
+<!-- 판매자문의/사이트문의 목록 출력 (btype으로 구분) -->
 <select id="usertolist" resultMap="dto">
 select b.bnum, b.bname, b.bdate, p.pname from boarddb b, listdb p where b.pcode = p.pcode(+) and b.btype = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
 </select>
 
-<select id="usertosellerout" resultMap="dto">
+<!-- 판매자/사이트 문의 상세 -->
+<select id="usertoaskout" resultMap="dto">
 select b.bnum, b.bname, b.bcont, p.pname, b.bdate from boarddb b, listdb p where b.pcode = p.pcode(+) and reproot = #{param1} order by bnum
 </select>
 
+<!-- 사이트문의 저장 -->
 <insert id="usertositesave">
 insert into boarddb values (SEQ_boardDB.NEXTVAL, (select ucode from userdb where userid = #{param1}), #{param2}, #{param3}, '-', sysdate, 3, SEQ_boardDB.CURRVAL, 0, 0)
 </insert>

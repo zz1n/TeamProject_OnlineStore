@@ -13,7 +13,7 @@ public interface ListService {
 
 	ArrayList<ListDTO> usertolist(String string, int btype);
 
-	ArrayList<ListDTO> usertosellerout(int bnum);
+	ArrayList<ListDTO> usertoaskout(int bnum);
 
 	ArrayList<ListDTO> orderlist(String string, int stnrd);
 

@@ -29,7 +29,7 @@
     <!-- 월 환불 금액 -->
      nvl((select sum(ocharge) from orderdb where ostate = 6 and to_date(odate, 'YY/MM/DD') between add_months(sysdate, -1) and sysdate and scode=#{param1}), 0) as monthrefund, 
     <!-- 장바구니 -->
-     nvl((select count(bcount) from checkdb where scode = #{param1}), 0) as checklist, 
+     nvl((select sum(bcount) from checkdb where scode = #{param1}), 0) as checklist, 
      <!-- 배송전 -->
      nvl((select count(oshipstate) from orderdb where oshipstate = 1 and scode=#{param1}), 0) as shipstate1,    
      <!-- 배송중 -->

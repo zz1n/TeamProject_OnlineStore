@@ -25,27 +25,33 @@
 	</resultMap>
 <!-- pcode insert 할 때, 칼럼값을 'P'||LPAD(SEQ_productDB.NEXTVAL,5,0) -->
 
-<!-- 효진 -->
+	<!-- 효진 -->
+<!-- 장바구니/좋아요 목록 출력 -->
 <select id="usercheck" resultMap="dto">
 	select l.pcode, l.pthumbnail, l.pname, l.price, c.bcount, c.ccode from listdb l left outer join checkdb c on (l.pcode = c.pcode) where ucode = (select ucode from userdb where userid = #{param1}) and bcode = #{param2}
 </select>
 
+<!-- 판매자문의 -->
 <select id="usertoseller" resultMap="dto">
 	select pcode, pname, pthumbnail from listdb where pcode = (select pcode from orderdb where ocode = #{param1})
 </select>
 
+<!-- 리뷰상세출력 -->
 <select id="usereareview" resultMap="dto">
 select b.bnum, l.pname, b.bdate, b.bname, b.bcont from boarddb b left outer join listdb l on (b.pcode = l.pcode) where b.bnum = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
 </select>
 
+<!-- 리뷰/문의 목록 출력 (btype으로 구분) -->
 <select id="usertolist" resultMap="dto">
 select b.bnum, b.bname, b.bdate, p.pname from boarddb b, listdb p where b.pcode = p.pcode(+) and b.btype = #{param2} and b.bcode = (select ucode from userdb where userid = #{param1})
 </select>
 
-<select id="usertosellerout" resultMap="dto">
+<!-- 리뷰/문의 상세 출력 -->
+<select id="usertoaskout" resultMap="dto">
 select b.bnum, b.bname, b.bcont, p.pname, b.bdate from boarddb b, listdb p where b.pcode = p.pcode(+) and reproot = #{param1} order by bnum
 </select>
 
+<!-- 주문 목록 출력 -->
 <select id="orderlist" resultMap="dto">
 select p.pthumbnail, o.ocode, p.pname, o.ocount, o.ocharge
     from orderdb o left outer join listdb p on (o.pcode = p.pcode)
@@ -54,16 +60,19 @@ select p.pthumbnail, o.ocode, p.pname, o.ocount, o.ocharge
         and u.userid = #{param1}
 </select>
 
+<!-- 주문 상세 출력 -->
 <select id="orderdetail" resultMap="dto">
 select p.pthumbnail, o.ocode, o.scode, o.pcode, p.pname, o.ocount, o.ocharge, o.ostate, o.oshipstate, o.oshipcode, o.ozipcode, o.oaddress, o.omemo, o.odate
 	from orderdb o left outer join listdb p on (o.pcode = p.pcode) where ocode = #{param2} and ucode = (select ucode from userdb where userid = #{param1})
 </select>
 
+<!-- 주문 정보 수정 출력 -->
 <select id="userorderchangeget" resultMap="dto">
 select p.pthumbnail, o.ocode, p.pname, o.ozipcode, o.oaddress, o.omemo, o.odate
 	from orderdb o left outer join listdb p on (o.pcode = p.pcode) where ocode = #{param2} and ucode = (select ucode from userdb where userid = #{param1})
 </select>
 
+<!-- 주문 정보 수정 저장 -->
 <update id="userorderchangeset">
 update orderdb set ozipcode = #{param2}, oaddress = #{param3}, omemo = #{param4} where ocode = #{param1}
 </update>

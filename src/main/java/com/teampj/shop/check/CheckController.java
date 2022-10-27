@@ -47,9 +47,8 @@ public class CheckController {
 	}
 
 	// 유저 장바구니
-	@RequestMapping(value = "/usercart", method = RequestMethod.GET) // 세션작업 필요
+	@RequestMapping(value = "/usercart", method = RequestMethod.GET) 
 	public ModelAndView usercart(Model model, HttpServletRequest request) {
-		// 세션에서 아이디 가져오는걸로 수정하기
 		ListService ser = sqlSession.getMapper(ListService.class);
 		CheckService cer = sqlSession.getMapper(CheckService.class);
 		HttpSession hs = request.getSession();
@@ -84,9 +83,8 @@ public class CheckController {
 	}
 
 	// 유저 좋아요
-	@RequestMapping(value = "/userlike", method = RequestMethod.GET) // 세션작업 필요
+	@RequestMapping(value = "/userlike", method = RequestMethod.GET) 
 	public ModelAndView userlike(Model model, HttpServletRequest request) {
-		// 세션에서 아이디 가져오는걸로 수정하기
 		ListService ser = sqlSession.getMapper(ListService.class);
 		CheckService cer = sqlSession.getMapper(CheckService.class);
 
@@ -104,9 +102,8 @@ public class CheckController {
 	}
 
 	// 유저 장바구니 삭제
-	@RequestMapping(value = "/cartdel", method = RequestMethod.GET) // 세션작업 필요
+	@RequestMapping(value = "/cartdel", method = RequestMethod.GET) 
 	public ModelAndView cartdel(Model model, HttpServletRequest request) {
-		// 세션에서 아이디 가져오는걸로 수정하기
 		CheckService ser = sqlSession.getMapper(CheckService.class);
 
 		String[] check = request.getParameterValues("chk");
@@ -122,9 +119,8 @@ public class CheckController {
 	}
 
 	// 유저 좋아요 삭제
-	@RequestMapping(value = "/likedel", method = RequestMethod.GET) // 세션작업 필요
+	@RequestMapping(value = "/likedel", method = RequestMethod.GET) 
 	public ModelAndView likedel(Model model, HttpServletRequest request) {
-		// 세션에서 아이디 가져오는걸로 수정하기
 		CheckService ser = sqlSession.getMapper(CheckService.class);
 
 		String[] check = request.getParameterValues("chk");

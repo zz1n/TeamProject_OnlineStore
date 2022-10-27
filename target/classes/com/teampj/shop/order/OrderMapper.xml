@@ -25,6 +25,9 @@
 	
 <!-- ocode insert 할 때, 칼럼값을 'O'||LPAD(SEQ_orderDB.NEXTVAL,5,0) -->
 
+	<!-- 효진 -->
+
+<!-- 주문목록/이전주문목록 -->
 <select id="orderlist" resultMap="dto">
 select p.pthumbnail, o.ocode, p.pname, o.ocount, o.ocharge
     from orderdb o left outer join listdb p on (o.pcode = p.pcode)
@@ -33,19 +36,23 @@ select p.pthumbnail, o.ocode, p.pname, o.ocount, o.ocharge
         and u.userid = #{param1}
 </select>
 
+<!-- 주문 상세 -->
 <select id="orderdetail" resultMap="dto">
 select p.pthumbnail, o.ocode, o.scode, o.pcode, p.pname, o.ocount, o.ocharge, o.ostate, o.oshipstate, o.oshipcode, o.ozipcode, o.oaddress, o.omemo, o.odate
 	from orderdb o left outer join listdb p on (o.pcode = p.pcode) where ocode = #{param2} and ucode = (select ucode from userdb where userid = #{param1})
 </select>
 
+<!-- 주문취소 -->
 <update id="ordercancel">
 update orderdb set ostate = 4 where ocode = #{param1} and ucode = (select ucode from userdb where userid = #{param2})
 </update>
 
+<!-- 환불요청 -->
 <update id="orderrefund">
 update orderdb set ostate = 3 where ocode = #{param1} and ucode = (select ucode from userdb where userid = #{param2})
 </update>
 
+<!-- 주문 정보 수정 출력 -->
 <select id="userorderchangeget" resultMap="dto">
 select p.pthumbnail, o.ocode, p.pname, o.ozipcode, o.oaddress, o.omemo, o.odate
 	from orderdb o left outer join listdb p on (o.pcode = p.pcode) where ocode = #{param2} and ucode = (select ucode from userdb where userid = #{param1})

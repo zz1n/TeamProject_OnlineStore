@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public interface BoardService {
 
 	//효진
-BoardDTO usereareview(String string, int bnum);
+	BoardDTO usereareview(String string, int bnum);
 	
 	int userreviewsave(String ocode, String bname, String bcont, String string);
 
@@ -22,7 +22,7 @@ BoardDTO usereareview(String string, int bnum);
 
 	ArrayList<BoardDTO> usertolist(String string, int btype);
 
-	ArrayList<BoardDTO> usertosellerout(int bnum);
+	ArrayList<BoardDTO> usertoaskout(int bnum);
 
 	int usertositesave(String string, String bname, String bcont);
 	

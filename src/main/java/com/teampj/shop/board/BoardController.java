@@ -47,16 +47,15 @@ public class BoardController {
 		return mav;
 	}
 
-	// �옉�꽦�븳 由щ럭 蹂닿린
-	@RequestMapping(value = "/reviewout", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 리뷰 상세출력
+	@RequestMapping(value = "/reviewout", method = RequestMethod.GET)
 	public ModelAndView reviewout(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 		ListService ler = sqlSession.getMapper(ListService.class);
-		
+
 		HttpSession hs = request.getSession();
 		String userid = (String) hs.getAttribute("member");
-		
+
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
 		BoardDTO dto = ser.usereareview(userid, bnum);
 		ListDTO lto = ler.usereareview(userid, bnum);
@@ -67,8 +66,8 @@ public class BoardController {
 		return mav;
 	}
 
-	// 援щℓ紐⑸줉�뿉�꽌 由щ럭 �옉�꽦�븯�윭媛�湲�
-	@RequestMapping(value = "/userreviewwrite", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 리뷰작성
+	@RequestMapping(value = "/userreviewwrite", method = RequestMethod.GET)
 	public ModelAndView userreviewwrite(Model model, HttpServletRequest request) {
 
 		String ocode = request.getParameter("ocode");
@@ -78,10 +77,9 @@ public class BoardController {
 		return mav;
 	}
 
-	// �옉�꽦�븳 由щ럭 ���옣
-	@RequestMapping(value = "/userreviewsave", method = RequestMethod.POST) // �꽭�뀡�옉�뾽 �븘�슂
+	// 리뷰 작성 저장
+	@RequestMapping(value = "/userreviewsave", method = RequestMethod.POST)
 	public ModelAndView userreviewsave(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		HttpSession hs = request.getSession();
@@ -98,10 +96,9 @@ public class BoardController {
 		return mav;
 	}
 
-	// �궡媛� �옉�꽦�븳 由щ럭 紐⑸줉 蹂닿린
-	@RequestMapping(value = "/reviewlist", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 작성한 리뷰 목록
+	@RequestMapping(value = "/reviewlist", method = RequestMethod.GET)
 	public ModelAndView reviewlist(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		HttpSession hs = request.getSession();
@@ -115,10 +112,9 @@ public class BoardController {
 		return mav;
 	}
 
-	// �궡媛� �옉�꽦�븳 由щ럭 �궘�젣�븯湲�
-	@RequestMapping(value = "/userreviewdel", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 작성한 리뷰 삭제
+	@RequestMapping(value = "/userreviewdel", method = RequestMethod.GET)
 	public ModelAndView userreviewdel(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
@@ -126,7 +122,6 @@ public class BoardController {
 		String userid = (String) hs.getAttribute("member");
 
 		int k = ser.userboarddel(userid, bnum);
-		System.out.println("由щ럭�궘�젣�릱�땲? " + k);
 
 		mav.addObject("btype", 2);
 		mav.setViewName("redirect:reviewlist");
@@ -134,10 +129,9 @@ public class BoardController {
 		return mav;
 	}
 
-	// 由щ럭 �닔�젙 異쒕젰
-	@RequestMapping(value = "/reviewupdateget", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 리뷰 수정할 내용 가져오기
+	@RequestMapping(value = "/reviewupdateget", method = RequestMethod.GET)
 	public ModelAndView reviewupdateget(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 		ListService ler = sqlSession.getMapper(ListService.class);
 
@@ -153,10 +147,9 @@ public class BoardController {
 		return mav;
 	}
 
-	// �닔�젙�븳 由щ럭 ���옣
-	@RequestMapping(value = "/reviewupdateset", method = RequestMethod.POST) // �꽭�뀡�옉�뾽 �븘�슂
+	// 리뷰 수정한 내용 저장하기
+	@RequestMapping(value = "/reviewupdateset", method = RequestMethod.POST)
 	public ModelAndView reviewupdateset(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		String bnum = request.getParameter("bnum");
@@ -166,18 +159,15 @@ public class BoardController {
 		String userid = (String) hs.getAttribute("member");
 
 		int k = ser.userreviewupdateset(userid, bnum, bname, bcont);
-		System.out.println(k + "由щ럭�닔�젙�릱�땲?");
 
 		mav.addObject("btype", 2);
 		mav.setViewName("redirect:reviewlist");
 		return mav;
 	}
 
-	// 臾몄쓽�븯�윭媛�湲�
-	@RequestMapping(value = "/usertoseller", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 판매자에게 문의하기
+	@RequestMapping(value = "/usertoseller", method = RequestMethod.GET)
 	public ModelAndView usertoseller(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
-
 		ListService ser = sqlSession.getMapper(ListService.class);
 		int btype = Integer.parseInt(request.getParameter("btype"));
 		String ocode = request.getParameter("ocode");
@@ -190,22 +180,18 @@ public class BoardController {
 		return mav;
 	}
 
-	// 臾몄쓽 ���옣�븯湲�
-	@RequestMapping(value = "/usertosellersave", method = RequestMethod.POST) // �꽭�뀡�옉�뾽 �븘�슂
+	// 판매자에게 문의한 글 저장하기
+	@RequestMapping(value = "/usertosellersave", method = RequestMethod.POST)
 	public ModelAndView usertosellersave(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
-
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		String bname = request.getParameter("bname");
 		String bcont = request.getParameter("bcont");
 		String pcode = request.getParameter("pcode");
-		System.out.println("臾몄쓽 �벑濡� 以�! " + bname + pcode);
 		HttpSession hs = request.getSession();
 		String userid = (String) hs.getAttribute("member");
 
 		int k = ser.usertosellersave(userid, bname, bcont, pcode);
-		System.out.println("臾몄쓽 �벑濡� �릱�땲? " + k);
 
 		mav.addObject("btype", 1);
 		mav.setViewName("redirect:usertosellerlist");
@@ -213,19 +199,18 @@ public class BoardController {
 		return mav;
 	}
 
-	// �궡媛� �벖 臾몄쓽 紐⑸줉 �솗�씤
-	@RequestMapping(value = "/usertosellerlist", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 판매자 문의 목록 출력
+	@RequestMapping(value = "/usertosellerlist", method = RequestMethod.GET)
 	public ModelAndView usertosellerlist(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
-
 		HttpSession hs = request.getSession();
+
 		String userid = (String) hs.getAttribute("member");
 		int btype = Integer.parseInt(request.getParameter("btype"));
 		BoardService ser = sqlSession.getMapper(BoardService.class);
+
 		ListService ler = sqlSession.getMapper(ListService.class);
 		ArrayList<BoardDTO> list = ser.usertolist(userid, btype);
 		ArrayList<ListDTO> list2 = ler.usertolist(userid, btype);
-		System.out.println(btype);
 
 		mav.addObject("list", list);
 		mav.addObject("list2", list2);
@@ -234,17 +219,16 @@ public class BoardController {
 		return mav;
 	}
 
-	// �궡媛� �벖 臾몄쓽 �궡�슜
-	@RequestMapping(value = "/usertosellerout", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 판매자 문의 상세내역
+	@RequestMapping(value = "/usertosellerout", method = RequestMethod.GET) 
 	public ModelAndView usertosellerout(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 		ListService ler = sqlSession.getMapper(ListService.class);
 
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
 
-		ArrayList<BoardDTO> list = ser.usertosellerout(bnum);
-		ArrayList<ListDTO> list2 = ler.usertosellerout(bnum);
+		ArrayList<BoardDTO> list = ser.usertoaskout(bnum);
+		ArrayList<ListDTO> list2 = ler.usertoaskout(bnum);
 
 		mav.addObject("list", list);
 		mav.addObject("list2", list2);
@@ -253,19 +237,16 @@ public class BoardController {
 		return mav;
 	}
 
-	// �궡媛� �벖 臾몄쓽 �궘�젣
-	@RequestMapping(value = "/usertosellerdel", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 판매자 문의 삭제
+	@RequestMapping(value = "/usertosellerdel", method = RequestMethod.GET) 
 	public ModelAndView usertosellerdel(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
-		System.out.println("臾몄쓽 �궡�슜 �궘�젣�븯�윭, " + bnum);
 		HttpSession hs = request.getSession();
 		String userid = (String) hs.getAttribute("member");
 
 		int k = ser.userboarddel(userid, bnum);
-		System.out.println("臾몄쓽 �궘�젣 �릱�땲? " + k);
 
 		mav.addObject("btype", 1);
 		mav.setViewName("redirect:usertosellerlist");
@@ -274,30 +255,26 @@ public class BoardController {
 	}
 
 	// 사이트에 문의하기
-	@RequestMapping(value = "/usertosite", method = RequestMethod.GET) // 세션작업 필요
+	@RequestMapping(value = "/usertosite", method = RequestMethod.GET) 
 	public ModelAndView usertosite(Model model, HttpServletRequest request) {
-		// 세션에서 아이디 가져오는걸로 수정하기
-
+		
 		mav.setViewName("usertosite");
 
 		return mav;
 	}
 
 	// 사이트 문의 저장하기
-	@RequestMapping(value = "/usertositesave", method = RequestMethod.POST) // 세션작업 필요
+	@RequestMapping(value = "/usertositesave", method = RequestMethod.POST) 
 	public ModelAndView usertositesave(Model model, HttpServletRequest request) {
-		// 세션에서 아이디 가져오는걸로 수정하기
 
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		String bname = request.getParameter("bname");
 		String bcont = request.getParameter("bcont");
-		System.out.println("문의 등록 중! " + bname);
 		HttpSession hs = request.getSession();
 		String userid = (String) hs.getAttribute("member");
 
 		int k = ser.usertositesave(userid, bname, bcont);
-		System.out.println("사이트 문의 등록 됐니? " + k);
 
 		mav.addObject("btype", 3);
 		mav.setViewName("redirect:usertositelist");
@@ -306,15 +283,13 @@ public class BoardController {
 	}
 
 	// 사이트 문의 목록
-	@RequestMapping(value = "/usertositelist", method = RequestMethod.GET) // 세션작업 필요
+	@RequestMapping(value = "/usertositelist", method = RequestMethod.GET) 
 	public ModelAndView usertositelist(Model model, HttpServletRequest request) {
-		// 세션에서 아이디 가져오는걸로 수정하기
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		int btype = Integer.parseInt(request.getParameter("btype"));
 		HttpSession hs = request.getSession();
 		String userid = (String) hs.getAttribute("member");
-		System.out.println(btype+"사이트리스트 잘 가지고 왔니?");
 		ArrayList<BoardDTO> list = ser.usertolist(userid, btype);
 
 		System.out.println(btype);
@@ -324,16 +299,14 @@ public class BoardController {
 		return mav;
 	}
 
-	// �궡媛� �벖 臾몄쓽 �궡�슜
-	@RequestMapping(value = "/usertositeout", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 사이트 문의 상세
+	@RequestMapping(value = "/usertositeout", method = RequestMethod.GET) 
 	public ModelAndView usertositeout(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
-		System.out.println("臾몄쓽 �궡�슜 �씫�쑝�윭 �솕�뒗�뜲, " + bnum);
 
-		ArrayList<BoardDTO> list = ser.usertosellerout(bnum);
+		ArrayList<BoardDTO> list = ser.usertoaskout(bnum);
 
 		mav.addObject("list", list);
 		mav.setViewName("usertositeout");
@@ -341,19 +314,16 @@ public class BoardController {
 		return mav;
 	}
 
-	// �궡媛� �벖 臾몄쓽 �궘�젣
-	@RequestMapping(value = "/usertositedel", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	// 사이트 문의 삭제
+	@RequestMapping(value = "/usertositedel", method = RequestMethod.GET) 
 	public ModelAndView usertositedel(Model model, HttpServletRequest request) {
-		// �꽭�뀡�뿉�꽌 �븘�씠�뵒 媛��졇�삤�뒗嫄몃줈 �닔�젙�븯湲�
 		BoardService ser = sqlSession.getMapper(BoardService.class);
 
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
-		System.out.println("臾몄쓽 �궡�슜 �궘�젣�븯�윭, " + bnum);
 		HttpSession hs = request.getSession();
 		String userid = (String) hs.getAttribute("member");
 
 		int k = ser.userboarddel(userid, bnum);
-		System.out.println("臾몄쓽 �궘�젣 �릱�땲? " + k);
 
 		mav.addObject("btype", 3);
 		mav.setViewName("redirect:usertositelist");
