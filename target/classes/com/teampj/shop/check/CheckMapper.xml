@@ -15,14 +15,18 @@
 		<result property="ccode" column="ccode"/>
 	</resultMap>
 	
+	<!-- 효진 -->
+<!-- 장바구니/좋아요 목록 bcode로 구분 -->
 <select id="usercheck" resultMap="dto">
 	select l.pcode, l.pthumbnail, l.pname, l.price, c.bcount, c.ccode from listdb l left outer join checkdb c on (l.pcode = c.pcode) where ucode = (select ucode from userdb where userid = #{param1}) and bcode = #{param2}
 </select>
 	
+<!-- 장바구니/좋아요 삭제 -->
 <delete id="checkdel">
 	delete from checkdb where ccode = #{param1} and ucode = (select ucode from userdb where userid = #{param2})
 </delete>
 
+<!-- 장바구니/좋아요 등록 -->
 <insert id="gotocheck">
 	insert into checkdb values ((select ucode from userdb where userid = #{param1}), #{param2}, sysdate, (select pcode from listdb where pcode = #{param2}), 1, #{param3}, SEQ_checkDB.NEXTVAL)
 </insert>

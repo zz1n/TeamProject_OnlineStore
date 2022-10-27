@@ -45,9 +45,10 @@ public class OrderController {
 		mav.setView(new RedirectView("/shop")); // 다른 컨트롤러로 viewname
 		return mav;
 	}
-
-	// 援щℓ紐⑸줉 3媛쒖썡�씠�궡, 3媛쒖썡�씠�쟾
-	@RequestMapping(value = "/orderlist", method = RequestMethod.GET) // �꽭�뀡�옉�뾽 �븘�슂
+	
+	//효진
+	// 주문목록
+	@RequestMapping(value = "/orderlist", method = RequestMethod.GET)
 	public ModelAndView orderlist(Model model, HttpServletRequest request) {
 		OrderService ser = sqlSession.getMapper(OrderService.class);
 		ListService ler = sqlSession.getMapper(ListService.class);
@@ -63,7 +64,8 @@ public class OrderController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/beforeorderlist", method = RequestMethod.POST) // �꽭�뀡�옉�뾽 �븘�슂
+	// 이전주문목록
+	@RequestMapping(value = "/beforeorderlist", method = RequestMethod.POST)
 	public ModelAndView beforeorderlist(Model model, HttpServletRequest request) {
 		OrderService ser = sqlSession.getMapper(OrderService.class);
 		ListService ler = sqlSession.getMapper(ListService.class);
@@ -81,7 +83,7 @@ public class OrderController {
 	}
 
 	// 주문내역 > 주문상세정보
-	@RequestMapping(value = "/orderdetail", method = RequestMethod.GET) // 세션작업필요
+	@RequestMapping(value = "/orderdetail", method = RequestMethod.GET)
 	public ModelAndView orderdetail(Model model, HttpServletRequest request) {
 		OrderService ser = sqlSession.getMapper(OrderService.class);
 		ListService ler = sqlSession.getMapper(ListService.class);
@@ -161,6 +163,7 @@ public class OrderController {
 		return mav;
 	}
 	
+	//판매자문의 넘겨주는 중~
 	@RequestMapping(value = "/usertoseller", method = RequestMethod.GET)
 	public ModelAndView usertoseller(Model model, HttpServletRequest request) {
 
@@ -173,6 +176,7 @@ public class OrderController {
 		return mav;
 	}
 	
+	//리뷰작성 넘겨주는 중~
 	@RequestMapping(value = "/userreviewwrite", method = RequestMethod.GET)
 	public ModelAndView userreviewwrite(Model model, HttpServletRequest request) {
 
@@ -184,6 +188,7 @@ public class OrderController {
 		return mav;
 	}
 	
+	//판매자 페이지로 이동~
 	@RequestMapping(value = "/gotosellerstore", method = RequestMethod.GET)
 	public ModelAndView gotosellerstore(Model model, HttpServletRequest request) {
 

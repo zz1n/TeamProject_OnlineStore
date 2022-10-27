@@ -43,7 +43,7 @@ public class ListController {
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public ModelAndView mainhome(Model model) {
-		mav.setView(new RedirectView("/shop")); // �떎瑜� 而⑦듃濡ㅻ윭濡� viewname
+		mav.setView(new RedirectView("/shop")); // 다른 컨트롤러로 viewname
 		return mav;
 	}
 
@@ -271,23 +271,22 @@ public class ListController {
 		return "redirect:/list/main";
 	}
 	
-	//hj
+	//효진
+	//장바구니에 저장
 	@RequestMapping(value = "/gotocart", method = RequestMethod.GET)
 	public ModelAndView gotocart(Model model, HttpServletRequest request) {
-		System.out.println("gotocart 도착");
 		String pcode = request.getParameter("pcode");
-		System.out.println(pcode+"도착");
 		HttpSession hs = request.getSession();
 		String userid = (String) hs.getAttribute("member");
 		
 		CheckService cer = sqlSession.getMapper(CheckService.class);
-		int k = cer.gotocheck(userid, pcode, 1);
-		System.out.println(k+" 쿼리문 작동?");
+		cer.gotocheck(userid, pcode, 1);
 		
 		mav.setView(new RedirectView("/shop/check/usercart"));
 		return mav;
 	}
 	
+	//좋아요에 저장
 	@RequestMapping(value = "/gotolike", method = RequestMethod.GET)
 	public ModelAndView gotolike(Model model, HttpServletRequest request) {
 		String pcode = request.getParameter("pcode");
@@ -295,7 +294,7 @@ public class ListController {
 		String userid = (String) hs.getAttribute("member");
 		
 		CheckService cer = sqlSession.getMapper(CheckService.class);
-		int k = cer.gotocheck(userid, pcode, 2);
+		cer.gotocheck(userid, pcode, 2);
 		
 		mav.setView(new RedirectView("/shop/check/userlike"));
 		return mav;
